@@ -1,0 +1,138 @@
+function printDiv(divName) {
+    var printContents = "<div style='padding:100px;'>" + document.getElementById(divName).innerHTML + "</div>";
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+}
+
+var count = 12;
+
+function fontPlus() {
+    count++;
+    var styleClass = ".content p span";
+    var mFontSize = count + "pt";
+    $(styleClass).css( {
+        "font-size" : mFontSize
+    });
+    styleClass = ".content p";
+    $(styleClass).css( {
+        "font-size" : mFontSize
+    });
+}
+
+function fontMinus() {
+    count--;
+    if (8 > count)
+        count = 8;
+    var styleClass = ".content p span";
+    var mFontSize = count + "pt";
+    $(styleClass).css( {
+        "font-size" : mFontSize
+    });
+    styleClass = ".content p";
+    $(styleClass).css( {
+        "font-size" : mFontSize
+    });
+}
+
+function searchHoiDap(pageSize, pageCurrent, key) {
+    var random = Math.random();
+    var cur_url = window.location.href;
+    var n = cur_url.indexOf("webcenter");
+    if (n ==  - 1) {
+        n = cur_url.indexOf("services");
+    }
+    var path = cur_url.substring(0, n);
+    var str_url = path + "/services/searchhoidapservlet?no=" + random;
+    var totalPage = 0;
+    totalPage = pageSize;
+
+    $.ajax( {
+        url : str_url, data :  {
+            'pageSize' : pageSize, 'pageCurrent' : pageCurrent, 'key' : key
+        },
+        dataType : 'json', success : function (data) {
+
+            var html_items = "";
+            var items = data.items;
+            $.each(items, function (index, item) {
+                var itemhtml = "<div class='panel panel-default panel1'><div class='panel-heading panel-heading-td' role='tab'><p><span class='text-do1'><i class='far fa-question-circle mr-5'></i><strong>Câu hỏi:</strong></span>" + item.noiDung + "<small class='text-muted'></small></p><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion1' href='#collapseOne" + item.id + "'><i class='far fa-comment-dots mr-5 text-primary'></i><strong class='text-primary'>Nội dung câu trả lời</strong></a></h4></div><div id='collapseOne" + item.id + "' class='panel-collapse collapse'><div class='panel-body panel-body-td'>" + item.traLoi + "</div></div></div>";
+                html_items = html_items.concat(itemhtml);
+            });
+            if ($('#html_content').length) {
+                document.getElementById("html_content").innerHTML = html_items;
+            }
+
+            var html_Paging = "<nav class='text-center'><ul class='pagination'>";
+            var parampage = "?key=" + key + "&pageSize=" + pageSize + "&pageCurrent=";
+
+            totalPage = parseInt(data.total / pageSize);
+            if (totalPage * pageSize < data.total) {
+                totalPage++;
+            }
+            if (totalPage == 1) {
+                pageCurrent = 1;
+            }
+
+            if (pageCurrent == 1) {
+                html_Paging += "<li class='disable'><a href='" + parampage + (pageCurrent) + "'>Trước</a><li>";
+            }
+            else {
+                html_Paging += "<li class=''><a href='" + parampage + (parseInt(pageCurrent) - 1) + "'>Trước</a><li>";
+            }
+            for (i = 1;i <= totalPage;i++) {
+                if (pageCurrent == i) {
+                    html_Paging += "<li class='active'><a href=''>" + i + "</a><li>";
+                }
+                else {
+                    html_Paging += "<li class=''><a href='" + parampage + i + "'>" + i + "</a><li>";
+                }
+            }
+            if (pageCurrent == totalPage) {
+                html_Paging += "<li class='disable'><a href='" + parampage + (pageCurrent) + "'>Sau</a><li>";
+            }
+            else {
+                html_Paging += "<li class=''><a href='" + parampage + (parseInt(pageCurrent) + 1) + "'>Sau</a><li>";
+            }
+            html_Paging += "</ul></nav>";
+            //            alert(html_Paging);
+            if ($('#html_pagination').length) {
+                document.getElementById("html_pagination").innerHTML = html_Paging;
+            }
+        },
+        error : function (err) {
+            alert("Error: " + err.responseText);
+        }
+    });
+
+}
+
+function createHoiDap(hoten, diachi, email, dienthoai, tieude, noidung) {
+    var random = Math.random();
+    var cur_url = window.location.href;
+    var n = cur_url.indexOf("webcenter");
+    if (n ==  - 1) {
+        n = cur_url.indexOf("services");
+    }
+    var path = cur_url.substring(0, n);
+    var str_url = path + "/services/createhoidapservlet?no=" + random;
+
+    $.ajax( {
+        url : str_url, data :  {
+            'hoten' : hoten, 'diachi' : diachi, 'email' : email, 'dienthoai' : dienthoai, 'tieude' : tieude, 'noidung' : noidung
+        },
+        dataType : 'json', success : function (data) {
+            if (data.code == '0') {
+                alert("Gửi câu hỏi thành công!");
+            }
+            else {
+                alert("Gửi câu hỏi thất bại!");
+            }
+
+        },
+        error : function (err) {
+            alert("Error: " + err.responseText);
+        }
+    });
+}
