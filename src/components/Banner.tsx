@@ -9,6 +9,7 @@ import { TbUserCheck } from "react-icons/tb";
 import { BiCalendarCheck } from "react-icons/bi";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { useRef } from "react";
+import image2 from "../assets/bg-lienket.png";
 function Banner() {
     const scrollRef = useRef<HTMLDivElement>(null);
     
@@ -36,13 +37,13 @@ function Banner() {
                 ? scrollLeft - clientWidth /2 
                 : scrollLeft + clientWidth/2  ;
             scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
-        }
+        }   
 
     };
     return (
     <div className="bg-white w-full">
         
-        <div className="relative group bg-[#FFF8E7] border-y border-orange-200 py-6">
+        <div className="relative group  border-y border-orange-200 py-6"  style={{ backgroundImage: `url(${image2})` }}>
             <button 
                     onClick={() => scroll("left")}
                     className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow hover:bg-white text-orange-800" >

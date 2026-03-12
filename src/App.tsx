@@ -1,8 +1,8 @@
-import HomePage from "./pages/Home/Home_pages"
+import AppRoutes from "./routes/AppRoutes"
 
 
 function App() {
-  return <HomePage />
+  return <AppRoutes />
 }
 
 export default App

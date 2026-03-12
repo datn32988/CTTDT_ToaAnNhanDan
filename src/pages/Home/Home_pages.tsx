@@ -6,6 +6,10 @@ import ActivityNew from "../../components/ActivityNew";
 import Slider from "../../components/Slider";
 import SliderTask from "../../components/SliderTask";
 import LitigationNoticeSection from "../../components/LitigationNoticeSection";
+import  TrialNew from "../../components/TrialNew";
+import ImageNew from "../../components/ImageNew";
+import VideosNew from "../../components/VideosNew";
+import DocManagement from "./widgets/DocManagement";
 
 function HomePage() {
   return (
@@ -13,11 +17,14 @@ function HomePage() {
       <Header />
       <Slider />
       <SliderTask />
-      
       <Banner />
       <MainPage />  
       <ActivityNew />
       <LitigationNoticeSection />
+      <TrialNew />
+      <ImageNew />
+      <VideosNew />
+      <DocManagement />
       <Footer />
     </div>
     

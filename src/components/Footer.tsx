@@ -1,9 +1,46 @@
+import image from "../assets/bn-f1.png";
+import image1 from "../assets/bn-f2.png";
+import image2 from "../assets/bn-f3.png";
+import image3 from "../assets/bn-f4.png";
+import image4 from "../assets/bn-f5.png";
+import image5 from "../assets/bn-f6.png";
+import image6 from "../assets/bn-f7.png";
+import image7 from "../assets/bn-f8.png";
+
 function Footer() {
     return (
         <footer className="mt-16 w-full text-white text-start">
-            
+            <div className="grid grid-cols-4 gap-4 max-w-7xl mx-auto px-4 py-10 ba pl-10 ">
+                    <div className="space-y-2">
+                        <img src={image} alt="" className="w-full h-full object-cover border-1 border-slate-100" />
+                    </div>
+                     <div className="space-y-2">
+                        <img src={image1} alt="" className="w-full h-full object-cover"  />
+                    </div>
+                    <div className="space-y-2">
+                        <img src={image2} alt="" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="space-y-2">
+                        <img src={image3} alt="" className="w-full h-full object-cover" />
+                    </div>
+               </div>
+                <div className="grid grid-cols-4 gap-4 max-w-7xl mx-auto pb-10 px-4 pl-10">
+                    <div className="space-y-2">
+                        <img src={image4} alt="" className="w-full h-full object-cover" />
+                    </div>
+                     <div className="space-y-2">
+                        <img src={image5} alt="" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="space-y-2">
+                        <img src={image6} alt="" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="space-y-2">
+                        <img src={image7} alt="" className="w-full h-full object-cover" />
+                    </div>
+               </div>
             <div className="bg-red-500 w-full">
                
+
                 <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-4 gap-4 text-lg border-b border-red-400">
                     <div className="space-y-2">
                         <p>GIỚI THIỆU TÒA ÁN</p>

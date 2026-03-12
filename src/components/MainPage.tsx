@@ -3,7 +3,8 @@ import image from "../assets/aaaa_1772889718098.jpg";
 import image2 from "../assets/LS_80_nam_1754490521611.jpg";
 import image3 from "../assets/Du_thao_Hien_phap_1748484499365.jpg";
 import image4 from "../assets/Luat_hoa_giai,_doi_thoai_tai_Toa_an_1710393413742.jpg";
-import image5 from "../assets/Thong_tin_tuyen_dung_nam_2025_1759489465871.jpg";
+import image5 from "../assets/trongdong1.png"
+
 interface PostItem {
     id: string;
     title: string;
@@ -28,7 +29,7 @@ function MainPage() {
             <div className="bg-gray-100 min-h-screen ml-[160px] mr-[127px] mt-10 mb-10  flex flex-between gap-10">
                 <div className="w-[460px] ">
                     <h2 className="text-lg font-bold mb-4 text-start uppercase tracking-wider  bg-red-500 text-white p-4 pl-6">
-                        thông báo CHỈ ĐẠO ĐIỀU HÀNH
+                        Thông Báo CHỈ ĐẠO ĐIỀU HÀNH
                     </h2>
                       <div className="bg-white p-4">
                         {posts.map((post) => (
@@ -68,7 +69,7 @@ function MainPage() {
                         Liên kết websites
                     </h2>
                     <div className="bg-white p-4 w-full h-[165px] border-2">
-                    <div className="bg-yellow-200 rounded-md p-2">
+                    <div className="bg-yellow-100 rounded-md p-2 "  style={{ backgroundImage: `url(${image5})` , backgroundPosition: "center", backgroundRepeat: "no-repeat"}}>
                         <p className="text-lg text-center text-black py-2 hover:text-red-600">
                             Trang Thông Tin Điện Tử
                         </p>
@@ -76,6 +77,7 @@ function MainPage() {
                         <p className="text-lg font-bold text-center text-black py-2 hover:text-red-600">
                             TÒA ÁN nhân dân tỉnh, thành phố
                         </p>
+                        
                     </div>
                     
                 </div>

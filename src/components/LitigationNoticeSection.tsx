@@ -4,7 +4,7 @@ import { BiBlanket } from "react-icons/bi";
 import { BiUser } from "react-icons/bi";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { LuUsers } from "react-icons/lu";
-
+import image1 from "../assets/trongdong1.png";
 function LitigationNoticeSection() {
     const scrollRef = useRef<HTMLDivElement>(null);
     const menuItems = [
@@ -39,7 +39,7 @@ function LitigationNoticeSection() {
            
             <div 
                     ref={scrollRef}
-                    className="flex overflow-x-auto scrollbar-hide gap-10 px-10 scroll-smooth ml-[160px] mr-[160px]"
+                    className="flex overflow-x-auto scrollbar-hide gap-10 px-10 scroll-smooth ml-[160px] mr-[160px] py-3"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                      <button 
@@ -50,7 +50,7 @@ function LitigationNoticeSection() {
                     {menuItems.map((item, index) => (
                         <div 
                             key={index} 
-                            className="flex-shrink-0 w-[200px] flex flex-col items-center text-center cursor-pointer bg-yellow-200 p-2 rounded-lg"
+                            className="flex-shrink-0 w-[200px] flex flex-col items-center text-center cursor-pointer bg-yellow-200 p-2 rounded-lg"style={{ backgroundImage: `url(${image1})`, backgroundPosition: "center", backgroundRepeat: "no-repeat",   }}
                         >
                            
                             <div className="w-16 h-16 bg-[#D43131] rounded-full flex items-center justify-center text-white mb-3 text-3xl shadow-lg border-10 border-white">
