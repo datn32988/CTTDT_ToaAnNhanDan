@@ -8,9 +8,6 @@ namespace ToaAnNhanDan.Api.Dtos.Post
         [Required]
         public int IdCategory { get; set; }
 
-        [Required]
-        public string? AuthorId { get; set; }
-
         public IFormFile? Image { get; set; }
 
         [Required]
