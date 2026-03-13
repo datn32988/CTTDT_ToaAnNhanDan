@@ -6,17 +6,32 @@ using ToaAnNhanDan.Api.Models;
 
 namespace ToaAnNhanDan.Api.Services
 {
-    public class PostService(ApplicationDbContext db) : IPostService
+    public class PostService(ApplicationDbContext db, IWebHostEnvironment env) : IPostService
     {
         private const int PageSize = 10;
 
         public async Task<Post> CreateAsync(CreatePostDto dto, CancellationToken ct = default)
         {
+            var webRoot = env.WebRootPath ?? Path.Combine(env.ContentRootPath, "wwwroot");
+            var uploadFolder = Path.Combine(webRoot, "uploads", "posts");
+            Directory.CreateDirectory(uploadFolder);
+
+            var ext = Path.GetExtension(dto.Image.FileName);
+            var fileName = $"{Guid.NewGuid():N}{ext}";
+            var filePath = Path.Combine(uploadFolder, fileName);
+
+            await using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await dto.Image.CopyToAsync(stream, ct);
+            }
+
+            var relativePath = Path.Combine("uploads", "posts", fileName).Replace("\\", "/");
+
             var post = new Post
             {
                 IdCategory = dto.IdCategory,
                 AuthorId = dto.AuthorId ?? string.Empty,
-                Image = dto.Image ?? string.Empty,
+                Image = relativePath,
                 Title = dto.Title ?? string.Empty,
                 Doc = dto.Doc ?? string.Empty,
                 Date = dto.Date ?? DateTime.UtcNow
@@ -86,6 +101,11 @@ namespace ToaAnNhanDan.Api.Services
                     Date = p.Date
                 })
                 .FirstOrDefaultAsync(ct);
+        }
+
+        public Task<List<PostCategory>> GetListCategoryAsync(CancellationToken ct = default)
+        {
+            return db.PostCategories.AsNoTracking().ToListAsync(ct);
         }
     }
 }
