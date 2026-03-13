@@ -9,5 +9,6 @@ namespace ToaAnNhanDan.Api.Services
         Task<Post> CreateAsync(CreatePostDto dto, CancellationToken ct = default);
         Task<PostCategory> CreateCategory(CreatePostCategory category, CancellationToken ct = default);
         Task<PagedResult<Post>> GetAllPostsAsync(int? categoryId = null, int page = 1, CancellationToken ct = default);
+        Task<PostDetailDto?> GetDetailAsync(int postId, CancellationToken ct = default);
     }
 }

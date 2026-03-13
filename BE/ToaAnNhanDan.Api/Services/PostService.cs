@@ -71,5 +71,21 @@ namespace ToaAnNhanDan.Api.Services
                 }
             };
         }
+
+        public async Task<PostDetailDto?> GetDetailAsync(int postId, CancellationToken ct = default)
+        {
+            return await db.Posts.AsNoTracking()
+                .Where(p => p.Id == postId)
+                .Select(p => new PostDetailDto
+                {
+                    Id = p.Id,
+                    IdCategory = p.IdCategory,
+                    Title = p.Title,
+                    Image = p.Image,
+                    Doc = p.Doc,
+                    Date = p.Date
+                })
+                .FirstOrDefaultAsync(ct);
+        }
     }
 }
