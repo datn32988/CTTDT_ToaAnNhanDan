@@ -11,7 +11,8 @@ namespace ToaAnNhanDan.Api.Controllers
     {
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreatePost([FromBody] CreatePostDto dto, CancellationToken ct)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> CreatePost([FromForm] CreatePostDto dto, CancellationToken ct)
         {
             var created = await post.CreateAsync(dto, ct);
             return Created($"/api/posts/{created.Id}", new { created.Id });
@@ -38,6 +39,12 @@ namespace ToaAnNhanDan.Api.Controllers
             var result = await post.GetDetailAsync(postId, ct);
             if (result is null) return NotFound();
 
+            return Ok(result);
+        }
+        [HttpGet("categories")]
+        public async Task<IActionResult> GetCategories(CancellationToken ct)
+        {
+            var result = await post.GetListCategoryAsync(ct);
             return Ok(result);
         }
     }

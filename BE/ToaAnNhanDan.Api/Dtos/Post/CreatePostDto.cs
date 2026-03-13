@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace ToaAnNhanDan.Api.Dtos.Post
 {
@@ -10,8 +11,7 @@ namespace ToaAnNhanDan.Api.Dtos.Post
         [Required]
         public string? AuthorId { get; set; }
 
-        [MaxLength(500)]
-        public string? Image { get; set; }
+        public IFormFile? Image { get; set; }
 
         [Required]
         [MaxLength(300)]
