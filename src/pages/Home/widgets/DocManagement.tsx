@@ -25,7 +25,7 @@ function DocManagement() {
     return (
         <div className="ml-[160px] mr-[127px] grid grid-cols-2 gap-4 mt-5">
             <div className="bg-white border border-gray-300 ">
-                <div className="w-full bg-red-500 text-white ">
+                <div className="w-full bg-red-500 text-white border-l-8 border-red-700 ">
                     <h1 className="text-2xl font-bold px-6 py-3 inline-block">GÓP Ý DỰ THẢO VĂN BẢN</h1>
                 </div>
                 <div className="border-t-2 border-t-red-500 w-full h-[550px] border-x-2 border-white">
@@ -47,7 +47,7 @@ function DocManagement() {
 
             </div>
             <div className="bg-white border border-gray-300">
-                  <div className="w-full bg-red-500 text-white ">
+                  <div className="w-full bg-red-500 text-white border-l-8 border-red-700">
                     <h1 className="text-2xl font-bold px-6 py-3 inline-block">VĂN BẢN QUY PHẠM PHÁP LUẬT MỚI</h1>
                 </div>
                  <div className=''>

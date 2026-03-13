@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import banner1 from "../assets/bn565_1_1528336294950.png";
 import banner2 from "../assets/bn565_2_1528336723310.png";
+import image7 from "../assets/bg-tle.png";
 interface PostItem {
     id: string;
     imageUrl?: string;
@@ -31,8 +32,9 @@ function TrialNew() {
 
     return (
         <div className="ml-[160px] mr-[127px]">
-             <div className=" mt-4 flex">
-                <h1 className="bg-red-500 text-2xl text-white font-bold px-6 py-3 inline-block">Tin xét xử</h1>
+             <div className=" mt-4 flex  border-l-8 border-red-700">
+                <h1 className="bg-red-500 text-2xl text-white font-bold px-6 py-2 inline-block">Tin xét xử</h1>
+                <img src={image7} alt="" className="border-r-2 border-red-400" />
             </div>
 
             <div className="border-t-2 border-t-red-500 w-full h-[500px] border-x-2 border-gray-50">

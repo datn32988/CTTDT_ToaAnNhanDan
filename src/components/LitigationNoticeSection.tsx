@@ -33,7 +33,7 @@ function LitigationNoticeSection() {
     return (
         <div className="bg-white w-full">
         <div>
-            <h2 className="text-2xl font-bold text-center py-6 text-[#D43131]">THÔNG BÁO VĂN BẢN TỐ TỤNG</h2>
+            <h2 className="text-2xl font-bold text-center py-6 text-[#D43131] border-2 border-mg border-red-500 ">THÔNG BÁO VĂN BẢN TỐ TỤNG</h2>
         </div>
         <div className="relative group bg-[#ffffff] border-y border-gray-50">
            
@@ -50,7 +50,7 @@ function LitigationNoticeSection() {
                     {menuItems.map((item, index) => (
                         <div 
                             key={index} 
-                            className="flex-shrink-0 w-[200px] flex flex-col items-center text-center cursor-pointer bg-yellow-200 p-2 rounded-lg"style={{ backgroundImage: `url(${image1})`, backgroundPosition: "center", backgroundRepeat: "no-repeat",   }}
+                            className="flex-shrink-0 w-[200px] flex flex-col items-center text-center cursor-pointer bg-yellow-200 p-2 rounded-lg"style={{ backgroundImage: `url(${image1})`, backgroundPosition: "center", backgroundRepeat: "no-repeat"  }}
                         >
                            
                             <div className="w-16 h-16 bg-[#D43131] rounded-full flex items-center justify-center text-white mb-3 text-3xl shadow-lg border-10 border-white">

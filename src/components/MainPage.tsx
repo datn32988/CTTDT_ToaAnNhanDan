@@ -28,7 +28,7 @@ function MainPage() {
         return (
             <div className="bg-gray-100 min-h-screen ml-[160px] mr-[127px] mt-10 mb-10  flex flex-between gap-10">
                 <div className="w-[460px] ">
-                    <h2 className="text-lg font-bold mb-4 text-start uppercase tracking-wider  bg-red-500 text-white p-4 pl-6">
+                    <h2 className="text-lg font-bold mb-4 text-start uppercase tracking-wider  bg-red-500 text-white p-4 pl-6 border-l-8 border-red-700">
                         Thông Báo CHỈ ĐẠO ĐIỀU HÀNH
                     </h2>
                       <div className="bg-white p-4">
@@ -46,7 +46,7 @@ function MainPage() {
                 </div>
             </div>
                  <div className="w-[465px]">
-                    <h2 className="text-lg font-bold mb-4 text-start uppercase tracking-wider   bg-red-500 text-white p-4 pl-6">
+                    <h2 className="text-lg font-bold mb-4 text-start uppercase tracking-wider   bg-red-500 text-white p-4 pl-6 border-l-8 border-red-700">
                         NGHỊ QUYẾT HỘI ĐỒNG THẨM PHÁN
                     </h2>
                      <div className="bg-white p-4">
@@ -65,7 +65,7 @@ function MainPage() {
                 
                 </div>
                  <div className="w-[300px]">
-                    <h2 className="text-lg font-bold mb-4 text-start uppercase tracking-wider   bg-red-500 text-white p-4 pl-6">
+                    <h2 className="text-lg font-bold mb-4 text-start uppercase tracking-wider   bg-red-500 text-white p-4 pl-6 border-l-8 border-red-700">
                         Liên kết websites
                     </h2>
                     <div className="bg-white p-4 w-full h-[165px] border-2">

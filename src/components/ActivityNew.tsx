@@ -3,6 +3,7 @@ import image6 from "../assets/e0af0872d356be51779bfe9875b978ba.jpg";
 import { CiFacebook } from "react-icons/ci";
 import { CiTwitter } from "react-icons/ci";
 import { CgMail } from "react-icons/cg";
+import image7 from "../assets/bg-tle.png";
 function ActivityNew() {
 
     return(
@@ -11,8 +12,9 @@ function ActivityNew() {
                 <img src={image5} alt="" className="w-full h-[100px] " />
             </div>
 
-            <div className=" mt-4 flex">
-                <h1 className="bg-red-500 text-2xl text-white font-bold px-6 py-3 inline-block">TIN HOẠT ĐỘNG</h1>
+            <div className=" mt-4 flex border-l-8 border-red-700">
+                <h1 className="bg-red-500 text-2xl text-white font-bold px-6 py-2 inline-block">TIN HOẠT ĐỘNG</h1>
+                <img src={image7} alt="" className="border-r-2 border-red-400" />
             </div>
             <div className="bg-white w-full h-[500px] border-t-2 border-t-red-500">
                 <div className="grid grid-cols-2 gap-4 p-4">

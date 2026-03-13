@@ -3,6 +3,9 @@ import HomePage from "../pages/Home/Home_pages";
 import RegisterPage from "../pages/Auth/Register_page";
 import LoginPage from "../pages/Auth/Login_page";
 import IntroducePage from "../pages/Introduce_page/Introduce_page";
+import ListPostPage from "../pages/ListPost_page/ListPost_page";
+import PostDetailPage from "../pages/Home/Post_detail/Post_Detail";
+import CreatePostPage from "../pages/Post/CreatePost_page";
 
 
 function AppRoutes (){
@@ -13,6 +16,9 @@ function AppRoutes (){
                 <Route path="/dangky" element={<RegisterPage />} />
                 <Route path="/dangnhap" element={<LoginPage />} />
                 <Route path="/gioithieu" element={<IntroducePage/>} />
+                <Route path="/danhsachbangtin" element={<ListPostPage/>}/>
+                <Route path="/chitiettin/:id" element={<PostDetailPage/>}/>
+                <Route path="/dangbai" element = {<CreatePostPage/>}></Route>
             </Routes>
         
         </BrowserRouter>

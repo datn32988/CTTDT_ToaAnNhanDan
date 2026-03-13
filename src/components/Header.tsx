@@ -2,14 +2,15 @@ import Logo from "../assets/logo.png";
 import Home from "../assets/home.png";
 import Grip from "../assets/grip.png";
 import Search from "../assets/iconsearch.webp";
+import { Link } from "react-router-dom";
 
 function Header() {
     const menuItems = [
-    "GIỚI THIỆU",
-    "HỘI ĐỒNG THẨM PHÁN",
-    "CHÁNH ÁN",
-    "HỆ THỐNG VĂN BẢN",
-    "LIÊN HỆ"
+    {name :"GIỚI THIỆU", path:"/gioithieu"},
+    {name :"HỘI ĐỒNG THẨM PHÁN", path:"/gioithieu"},
+    {name :"CHÁNH ÁN", path:"/gioithieu"},
+    {name :"HỆ THỐNG VĂN BẢN", path:"/gioithieu"},
+    {name :"LIÊN HỆ",path:"/gioithieu"},
   ];
   return (
   
@@ -31,20 +32,23 @@ function Header() {
         <div className="container mx-auto px-4">
           <ul className="flex items-center  py-2 pl-[160px]">
             <li className="">
-              <img
-                src={Home}
-                alt="home"className="text-gray-700 hover:text-yellow-400 px-3 "
-              />
+              <Link to="/">
+                <img
+                  src={Home}
+                  alt="home"className="text-gray-700 hover:text-yellow-400 px-3 "
+                />
+              </Link>
+              
              
             </li>
             {menuItems.map((item, index) => (
               <li key={index}>
-                <a 
-                  href="#" 
+                <Link 
+                  to={item.path}
                   className="text-white hover:text-yellow-400 font-medium text-xl tracking-wide transition-colors duration-200 border-r-2 border-white/30 p-4"
                 >
-                  {item}
-                </a>
+                  {item.name}
+                </Link>
               </li>
             ))}
             <li className="ml-auto">
