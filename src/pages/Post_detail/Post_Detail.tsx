@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Category from "../../../components/Catecory";
-import Footer from "../../../components/Footer";
-import Header from "../../../components/Header";
-import Notification from "../../../components/Notification";
-import VerticalBanner from "../../../components/VerticalBanner";
-import { postService } from "../../../services/postService";
-import type { Post } from "../../../types/Post.type";
+import Category from "../../components/Catecory";
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
+import Notification from "../../components/Notification";
+import VerticalBanner from "../../components/VerticalBanner";
+import { postService } from "../../services/postService";
+import type { Post } from "../../types/Post.type";
 
 function PostDetailPage() {
     const { id } = useParams<{ id: string }>(); 

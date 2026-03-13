@@ -4,7 +4,7 @@ import RegisterPage from "../pages/Auth/Register_page";
 import LoginPage from "../pages/Auth/Login_page";
 import IntroducePage from "../pages/Introduce_page/Introduce_page";
 import ListPostPage from "../pages/ListPost_page/ListPost_page";
-import PostDetailPage from "../pages/Home/Post_detail/Post_Detail";
+import PostDetailPage from "../pages/Post_detail/Post_Detail";
 import CreatePostPage from "../pages/Post/CreatePost_page";
 
 
