@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using ToaAnNhanDan.Api.Dtos.Post;
 using ToaAnNhanDan.Api.Services;
 
@@ -14,7 +15,8 @@ namespace ToaAnNhanDan.Api.Controllers
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> CreatePost([FromForm] CreatePostDto dto, CancellationToken ct)
         {
-            var created = await post.CreateAsync(dto, ct);
+            var authorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var created = await post.CreateAsync(dto, authorId, ct);
             return Created($"/api/posts/{created.Id}", new { created.Id });
         }
 

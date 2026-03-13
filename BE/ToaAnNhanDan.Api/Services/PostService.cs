@@ -10,7 +10,7 @@ namespace ToaAnNhanDan.Api.Services
     {
         private const int PageSize = 10;
 
-        public async Task<Post> CreateAsync(CreatePostDto dto, CancellationToken ct = default)
+        public async Task<Post> CreateAsync(CreatePostDto dto, string authorId, CancellationToken ct = default)
         {
             var webRoot = env.WebRootPath ?? Path.Combine(env.ContentRootPath, "wwwroot");
             var uploadFolder = Path.Combine(webRoot, "uploads", "posts");
@@ -30,7 +30,7 @@ namespace ToaAnNhanDan.Api.Services
             var post = new Post
             {
                 IdCategory = dto.IdCategory,
-                AuthorId = dto.AuthorId ?? string.Empty,
+                AuthorId = authorId,
                 Image = relativePath,
                 Title = dto.Title ?? string.Empty,
                 Doc = dto.Doc ?? string.Empty,
