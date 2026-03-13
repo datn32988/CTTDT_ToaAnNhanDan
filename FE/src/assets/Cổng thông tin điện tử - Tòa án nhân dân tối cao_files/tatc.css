@@ -1,0 +1,80 @@
+/*Anh nt*/
+.disabled{
+ pointer-events: none;
+}
+.pnl_active{
+	color: #ffea00 !important;
+}
+
+/*******Site map******/
+#id_sitemap ul{
+    list-style: none;
+    padding-left: 10px;
+}
+#id_sitemap li{
+    padding-left: 2px;
+    background: url(../images/treeview-default-line.gif) 0 0 no-repeat;
+}
+#id_sitemap a{
+    color:#337ab7;
+}
+#id_sitemap .mis_pls{
+    background-color: #fff;
+    color:#e4393c;
+}
+#id_sitemap .node_last{
+    padding-left: 15px;
+    padding-right: 5px;
+    color: #e3393c;
+}
+#id_sitemap .fa-folder-open,.fa-folder{
+    color: #FFD283;
+}
+
+
+
+/**********new**************/
+@-webkit-keyframes my {
+0% { color: #ff0005; } 
+50% { color: #006cff; } 
+100% { color: #ff0005; } 
+}
+@-moz-keyframes my { 
+0% { color: #ff0005; } 
+50% { color: #006cff; }
+100% { color: #ff0005; } 
+}
+@-o-keyframes my { 
+0% { color: #ff0005; } 
+50% { color: #006cff; } 
+100% { color: #ff0005; } 
+}
+@keyframes my { 
+0% { color: #ff0005; } 
+50% { color: #006cff; }
+100% { color: #ff0005; } 
+} 
+.icon-new1 {
+position: absolute;
+right: 0;
+background-color: transparent;
+-webkit-animation: my 700ms infinite;
+-moz-animation: my 700ms infinite; 
+-o-animation: my 700ms infinite; 
+animation: my 700ms infinite;
+}
+.icon-new {
+position: absolute;
+right: 20px;
+border: solid 1px #ff0005;
+color: #ff0005;
+background: #eaff00;
+-webkit-animation: my 700ms infinite;
+-moz-animation: my 700ms infinite; 
+-o-animation: my 700ms infinite; 
+animation: my 700ms infinite;
+}
+.bg-fa2{
+border: solid 2px #fff;
+}
+/***********end new****************/
