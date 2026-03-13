@@ -8,7 +8,7 @@ namespace ToaAnNhanDan.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(IAuthService auth, IConfiguration config) : ControllerBase
+    public class AuthController(IAuthService auth) : ControllerBase
     {
         [HttpPost("login")]
         [AllowAnonymous]
