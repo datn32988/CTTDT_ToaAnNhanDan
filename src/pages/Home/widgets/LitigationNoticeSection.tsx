@@ -4,7 +4,7 @@ import { BiBlanket } from "react-icons/bi";
 import { BiUser } from "react-icons/bi";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { LuUsers } from "react-icons/lu";
-import image1 from "../assets/trongdong1.png";
+import image1 from "../../../assets/trongdong1.png";
 function LitigationNoticeSection() {
     const scrollRef = useRef<HTMLDivElement>(null);
     const menuItems = [

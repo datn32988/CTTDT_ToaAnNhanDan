@@ -1,4 +1,4 @@
-import image from "../assets/Banner_bau_cu_1772682798864.jpg";
+import image from "../../../assets/Banner_bau_cu_1772682798864.jpg";
 import { BiCalendar } from "react-icons/bi";
 import { BiBlanket } from "react-icons/bi";
 import { BiUser } from "react-icons/bi";
@@ -9,7 +9,7 @@ import { TbUserCheck } from "react-icons/tb";
 import { BiCalendarCheck } from "react-icons/bi";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { useRef } from "react";
-import image2 from "../assets/bg-lienket.png";
+import image2 from "../../../assets/bg-lienket.png";
 function Banner() {
     const scrollRef = useRef<HTMLDivElement>(null);
     

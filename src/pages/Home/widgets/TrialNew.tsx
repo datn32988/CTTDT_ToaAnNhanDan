@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import banner1 from "../assets/bn565_1_1528336294950.png";
-import banner2 from "../assets/bn565_2_1528336723310.png";
-import image7 from "../assets/bg-tle.png";
+import banner1 from "../../../assets/bn565_1_1528336294950.png";
+import banner2 from "../../../assets/bn565_2_1528336723310.png";
+import image7 from "../../../assets/bg-tle.png";
 interface PostItem {
     id: string;
     imageUrl?: string;

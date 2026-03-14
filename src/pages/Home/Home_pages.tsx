@@ -1,14 +1,14 @@
-import Banner from "../../components/Banner";
+import Banner from "./widgets/Banner";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header"; 
-import MainPage from "../../components/MainPage";
-import ActivityNew from "../../components/ActivityNew";
-import Slider from "../../components/Slider";
-import SliderTask from "../../components/SliderTask";
-import LitigationNoticeSection from "../../components/LitigationNoticeSection";
-import  TrialNew from "../../components/TrialNew";
-import ImageNew from "../../components/ImageNew";
-import VideosNew from "../../components/VideosNew";
+import MainPage from "./widgets/MainPage";
+import ActivityNew from "./widgets/ActivityNew";
+import Slider from "./widgets/Slider";
+import SliderTask from "./widgets/SliderTask";
+import LitigationNoticeSection from "./widgets/LitigationNoticeSection";
+import  TrialNew from "./widgets/TrialNew";
+import ImageNew from "./widgets/ImageNew";
+import VideosNew from "./widgets/VideosNew";
 import DocManagement from "./widgets/DocManagement";
 
 function HomePage() {

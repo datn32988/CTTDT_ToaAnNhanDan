@@ -1,5 +1,5 @@
 import  { useState, useEffect } from "react";
-import Panner from "../assets/9b41b6b4c8284537dd952e4a476fa0b5.jpg";
+import Panner from "../../../assets/9b41b6b4c8284537dd952e4a476fa0b5.jpg";
 
 interface NewsItem {
     id: number;

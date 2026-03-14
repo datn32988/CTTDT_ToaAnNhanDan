@@ -1,9 +1,9 @@
-import image5 from "../assets/Thong_tin_tuyen_dung_nam_2025_1759489465871.jpg";
-import image6 from "../assets/e0af0872d356be51779bfe9875b978ba.jpg";
+import image5 from "../../../assets/Thong_tin_tuyen_dung_nam_2025_1759489465871.jpg";
+import image6 from "../../../assets/e0af0872d356be51779bfe9875b978ba.jpg";
 import { CiFacebook } from "react-icons/ci";
 import { CiTwitter } from "react-icons/ci";
 import { CgMail } from "react-icons/cg";
-import image7 from "../assets/bg-tle.png";
+import image7 from "../../../assets/bg-tle.png";
 function ActivityNew() {
 
     return(

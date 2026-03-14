@@ -1,6 +1,6 @@
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import Menu from "../../components/Menu";
+import Menu from "../Home/widgets/Menu";
 import Notification from "../../components/Notification";
 import VerticalBanner from "../../components/VerticalBanner";
 import image from "../../assets/Emblem_of_Vietnam.svg.png"

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import image7 from "../assets/bg-tle.png";
+import image7 from "../../../assets/bg-tle.png";
 interface PostItem {
     id: string;
     title: string;

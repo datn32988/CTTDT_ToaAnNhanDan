@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import image from "../assets/aaaa_1772889718098.jpg";
-import image2 from "../assets/LS_80_nam_1754490521611.jpg";
-import image3 from "../assets/Du_thao_Hien_phap_1748484499365.jpg";
-import image4 from "../assets/Luat_hoa_giai,_doi_thoai_tai_Toa_an_1710393413742.jpg";
-import image5 from "../assets/trongdong1.png"
+import image from "../../../assets/aaaa_1772889718098.jpg";
+import image2 from "../../../assets/LS_80_nam_1754490521611.jpg";
+import image3 from "../../../assets/Du_thao_Hien_phap_1748484499365.jpg";
+import image4 from "../../../assets/Luat_hoa_giai,_doi_thoai_tai_Toa_an_1710393413742.jpg";
+import image5 from "../../../assets/trongdong1.png"
 
 interface PostItem {
     id: string;
