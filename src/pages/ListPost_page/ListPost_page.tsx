@@ -16,7 +16,6 @@ function ListPostPage(){
         const loadData = async () => {
             try {
                 setLoading(true);
-                // Sử dụng service thay vì gọi trực tiếp axios
                 const data = await postService.getPosts(1, 1);
                 setPosts(data.items);
             } catch (error) {
@@ -74,12 +73,15 @@ function ListPostPage(){
                         </div>
                         <div className="col-span-1">
                             {sidePosts.map((post) => (
-                                <div key={post.id} className="">
-                                    <div className="flex p-4">
-                                        <img src={`${BASE_URL}/${post.image}`} alt="" className="w-[200px] " />
-                                        <h2 className="text-black ml-2 text-sm hover:text-red-500">{post.title}</h2>
+                                <Link to={`/chitiettin/${post.id}`}>
+                                    <div key={post.id} className="">
+                                        <div className="flex p-4">
+                                            <img src={`${BASE_URL}/${post.image}`} alt="" className="w-[200px] " />
+                                            <h2 className="text-black ml-2 text-sm hover:text-red-500">{post.title}</h2>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
+                                
 
                             ))}
 

@@ -5,6 +5,7 @@ import { BiUser } from "react-icons/bi";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { LuUsers } from "react-icons/lu";
 import image1 from "../../../assets/trongdong1.png";
+import image2 from "../../../assets/bg-totung.gif";
 function LitigationNoticeSection() {
     const scrollRef = useRef<HTMLDivElement>(null);
     const menuItems = [
@@ -32,8 +33,12 @@ function LitigationNoticeSection() {
     };
     return (
         <div className="bg-white w-full">
-        <div>
-            <h2 className="text-2xl font-bold text-center py-6 text-[#D43131] border-2 border-mg border-red-500 ">THÔNG BÁO VĂN BẢN TỐ TỤNG</h2>
+        <div className="flex justify-center" style={{ backgroundImage: `url(${image2})` }}>
+            <h2 className="text-2xl font-bold border-2 border-red-600  px-6 py-1 
+                        w-fit mx-auto text-red-600
+                        rounded-full bg-white">
+                THÔNG BÁO VĂN BẢN TỐ TỤNG
+            </h2>
         </div>
         <div className="relative group bg-[#ffffff] border-y border-gray-50">
            

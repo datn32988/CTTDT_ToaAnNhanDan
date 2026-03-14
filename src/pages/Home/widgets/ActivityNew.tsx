@@ -39,11 +39,13 @@ function ActivityNew() {
             <div>
                 <img src={image5} alt="" className="w-full h-[100px] " />
             </div>
-
-            <div className=" mt-4 flex border-l-8 border-red-700">
-                <h1 className="bg-red-500 text-2xl text-white font-bold px-6  inline-block">TIN HOẠT ĐỘNG</h1>
-                <img src={image7} alt="" className="border-r-2 border-red-400" />
-            </div>
+            <Link to={"/danhsachbangtin"}>
+                <div className=" mt-4 flex border-l-8 border-red-700">
+                    <h1 className="bg-red-500 text-2xl text-white font-bold px-6  inline-block">TIN HOẠT ĐỘNG</h1>
+                    <img src={image7} alt="" className="border-r-2 border-red-400" />
+                </div>
+            </Link>
+            
             <div className="bg-white w-full h-[500px] border-t-2 border-t-red-500">
                <div className="grid grid-cols-2 gap-4 p-4">
                 {mainPost &&( 
