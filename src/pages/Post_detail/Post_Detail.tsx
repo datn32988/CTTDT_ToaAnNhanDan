@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Category from "../../components/Catecory";
+import Category from "../../components/Category";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import Notification from "../../components/Notification";

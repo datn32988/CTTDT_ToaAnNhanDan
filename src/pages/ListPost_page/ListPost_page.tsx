@@ -5,7 +5,7 @@ import Notification from "../../components/Notification";
 import VerticalBanner from "../../components/VerticalBanner";
 import type { Post } from "../../types/Post.type";
 import { Link } from "react-router-dom"
-import Category from "../../components/Catecory";
+import Category from "../../components/Category";
 import { postService } from "../../services/postService";
 
 function ListPostPage(){

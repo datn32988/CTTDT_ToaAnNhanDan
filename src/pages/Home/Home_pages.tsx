@@ -1,6 +1,4 @@
 import Banner from "./widgets/Banner";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header"; 
 import MainPage from "./widgets/MainPage";
 import ActivityNew from "./widgets/ActivityNew";
 import Slider from "./widgets/Slider";
@@ -10,23 +8,26 @@ import  TrialNew from "./widgets/TrialNew";
 import ImageNew from "./widgets/ImageNew";
 import VideosNew from "./widgets/VideosNew";
 import DocManagement from "./widgets/DocManagement";
+import NewsLayout from "../../layouts/NewsLayout";
 
 function HomePage() {
   return (
-    <div className=" bg-gray-100 overflow-x-hidden"> 
-      <Header />
-      <Slider />
-      <SliderTask />
-      <Banner />
-      <MainPage />  
-      <ActivityNew />
-      <LitigationNoticeSection />
-      <TrialNew />
-      <ImageNew />
-      <VideosNew />
-      <DocManagement />
-      <Footer />
-    </div>
+    <NewsLayout>
+      <div className=" bg-white "> 
+        <Slider />
+        <SliderTask />
+        <Banner />
+        <MainPage />  
+        <ActivityNew />
+        <LitigationNoticeSection />
+        <TrialNew />
+        <ImageNew />
+        <VideosNew />
+        <DocManagement />
+        </div>
+    </NewsLayout>
+    
+    
     
   );
 }

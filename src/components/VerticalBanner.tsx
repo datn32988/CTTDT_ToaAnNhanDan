@@ -33,7 +33,7 @@ function VerticalBanner(){
             <div className="border-2 border-gray-300">
                 {post.map((item) => (
                     <div key={item.id}>
-                        <h2 className="py-2 px-3 bg-white cursor-pointer border-b border-gray-200 hover:text-red-500 pl-4"> - {item.title} <span className="text-black text-sm">({item.date.toLocaleDateString()})</span></h2>
+                        <h2 className="py-2 px-3 bg-white cursor-pointer border-b border-gray-200 hover:text-red-500 pl-4"> <span className="text-red-500">● </span> {item.title} <span className="text-black text-sm font-extralight">({item.date.toLocaleDateString()})</span></h2>
                 </div>
                 ))}
                 <div className="flex justify-end mt-4 mr-4 mb-5">
@@ -45,7 +45,7 @@ function VerticalBanner(){
              <div className=" pt-4 pb-2 mt-4">
                 <h2 className="text-white bg-red-600 text-2xl pl-4">LIÊN KẾT WINDOWN</h2>
                 <div className="bg-white p-4 w-full h-[165px] border-2">
-                    <div className="bg-yellow-100 rounded-md p-2" style={{ backgroundImage: `url(${image1})`,backgroundPosition: "center"}}>
+                    <div className="bg-yellow-100 rounded-md p-2 object-cover" style={{ backgroundImage: `url(${image1})`,backgroundPosition: "center"}}>
                         <p className="text-lg text-center text-black py-2 hover:text-red-600">
                             Trang Thông Tin Điện Tử
                         </p>

@@ -6,6 +6,10 @@ import IntroducePage from "../pages/Introduce_page/Introduce_page";
 import ListPostPage from "../pages/ListPost_page/ListPost_page";
 import PostDetailPage from "../pages/Post_detail/Post_Detail";
 import CreatePostPage from "../pages/Post/CreatePost_page";
+import TrialNewPage from "../pages/TrialNew_page/TrialNew_page";
+import AdminPage from "../pages/Admin/Admin_page";
+import ProtectedRoute from "../components/ProtectedRoute";
+import ArticleListItem from "../pages/ArticleListItem_page/ArticleListItem";
 
 
 function AppRoutes (){
@@ -18,7 +22,21 @@ function AppRoutes (){
                 <Route path="/gioithieu" element={<IntroducePage/>} />
                 <Route path="/danhsachbangtin" element={<ListPostPage/>}/>
                 <Route path="/chitiettin/:id" element={<PostDetailPage/>}/>
-                <Route path="/dangbai" element = {<CreatePostPage/>}></Route>
+                <Route path="/muchienthi" element={<ArticleListItem/>}/>
+                <Route path="/tinxetsu" element={<TrialNewPage/>}/>
+                
+                
+                <Route path="/admin" element={<ProtectedRoute>
+                    <AdminPage/>
+                </ProtectedRoute>  }/>
+                
+                <Route path="/dangbai" element = {
+                    <ProtectedRoute>
+                         <CreatePostPage/>
+                    </ProtectedRoute>
+                   
+                    
+                    }/>
             </Routes>
         
         </BrowserRouter>
