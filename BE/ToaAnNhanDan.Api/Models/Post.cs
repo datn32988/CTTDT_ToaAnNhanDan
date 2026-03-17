@@ -7,26 +7,26 @@ namespace ToaAnNhanDan.Api.Models
         public int Id { get; set; }
 
         [Required]
-        public int IdCategory { get; set; }
-
-        [Required]
-        public string AuthorId { get; set; } = string.Empty;
-
-        [Required]
-        [MaxLength(500)]
-        public string Image { get; set; } = string.Empty;
-
-        [Required]
         [MaxLength(300)]
         public string Title { get; set; } = string.Empty;
 
         [Required]
-        public string Doc { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
 
-        public DateTime Date { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [Required]
+        public int CategoryId { get; set; }
 
         public PostCategory? Category { get; set; }
-        
+
+        [Required]
+        public string AuthorId { get; set; } = string.Empty;
+
         public ApplicationUser? Author { get; set; }
+
+        public ICollection<PostMedia> Media { get; set; } = new List<PostMedia>();
+
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

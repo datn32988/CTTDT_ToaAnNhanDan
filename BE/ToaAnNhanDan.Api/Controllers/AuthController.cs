@@ -35,7 +35,6 @@ namespace ToaAnNhanDan.Api.Controllers
         }
 
         [HttpPost("register")]
-        [Authorize]
         public async Task<IActionResult> Register([FromBody] RegisterModel model, CancellationToken ct)
         {
             var result = await auth.RegisterAsync(model, ct);

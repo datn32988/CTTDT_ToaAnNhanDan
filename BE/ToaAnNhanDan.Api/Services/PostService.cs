@@ -6,36 +6,22 @@ using ToaAnNhanDan.Api.Models;
 
 namespace ToaAnNhanDan.Api.Services
 {
-    public class PostService(ApplicationDbContext db, IWebHostEnvironment env) : IPostService
+    public class PostService(ApplicationDbContext db) : IPostService
     {
         private const int PageSize = 10;
 
         public async Task<Post> CreateAsync(CreatePostDto dto, string authorId, CancellationToken ct = default)
         {
-            var webRoot = env.WebRootPath ?? Path.Combine(env.ContentRootPath, "wwwroot");
-            var uploadFolder = Path.Combine(webRoot, "uploads", "posts");
-            Directory.CreateDirectory(uploadFolder);
-
-            var ext = Path.GetExtension(dto.Image.FileName);
-            var fileName = $"{Guid.NewGuid():N}{ext}";
-            var filePath = Path.Combine(uploadFolder, fileName);
-
-            await using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await dto.Image.CopyToAsync(stream, ct);
-            }
-
-            var relativePath = Path.Combine("uploads", "posts", fileName).Replace("\\", "/");
-
             var post = new Post
             {
-                IdCategory = dto.IdCategory,
-                AuthorId = authorId,
-                Image = relativePath,
+                CategoryId = dto.CategoryId,
                 Title = dto.Title ?? string.Empty,
-                Doc = dto.Doc ?? string.Empty,
-                Date = dto.Date ?? DateTime.UtcNow
+                Content = dto.Content ?? string.Empty,
+                CreatedAt = dto.CreatedAt ?? DateTime.UtcNow,
+                AuthorId = authorId
             };
+
+            AddMediaFromDto(post, dto.Media);
 
             db.Posts.Add(post);
             await db.SaveChangesAsync(ct);
@@ -47,7 +33,8 @@ namespace ToaAnNhanDan.Api.Services
         {
             var categoryEntity = new PostCategory
             {
-                Name = category.Name.Trim()
+                Name = category.Name.Trim(),
+                ParentId = category.ParentId
             };
 
             db.PostCategories.Add(categoryEntity);
@@ -55,27 +42,51 @@ namespace ToaAnNhanDan.Api.Services
             return categoryEntity;
         }
 
-        public async Task<PagedResult<Post>> GetAllPostsAsync(int? categoryId = null, int page = 1, CancellationToken ct = default)
+        public async Task<PagedResult<PostListItemDto>> GetAllPostsAsync(int? categoryId = null, int? rootCategoryId = null, int page = 1, CancellationToken ct = default)
         {
             if (page < 1) page = 1;
 
             var query = db.Posts.AsNoTracking();
 
-            if (categoryId.HasValue)
-                query = query.Where(p => p.IdCategory == categoryId.Value);
+            if (rootCategoryId.HasValue)
+            {
+                var categoryIds = await GetCategoryTreeIdsAsync(rootCategoryId.Value, ct);
+                query = query.Where(p => categoryIds.Contains(p.CategoryId));
+            }
+            else if (categoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
 
             var total = await query.CountAsync(ct);
 
             var items = await query
-                .OrderByDescending(p => p.Date)
+                .OrderByDescending(p => p.CreatedAt)
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
+                .Select(p => new PostListItemDto
+                {
+                    Id = p.Id,
+                    CategoryId = p.CategoryId,
+                    Title = p.Title,
+                    CreatedAt = p.CreatedAt,
+                    ThumbnailUrl = p.Media
+                        .OrderByDescending(m => m.IsThumbnail == true)
+                        .ThenBy(m => m.OrderIndex)
+                        .Select(m => m.Url)
+                        .FirstOrDefault(),
+                    ThumbnailMediaType = p.Media
+                        .OrderByDescending(m => m.IsThumbnail == true)
+                        .ThenBy(m => m.OrderIndex)
+                        .Select(m => (MediaType?)m.MediaType)
+                        .FirstOrDefault()
+                })
                 .ToListAsync(ct);
 
             var next = page * PageSize < total ? page + 1 : (int?)null;
             var prev = page > 1 ? page - 1 : (int?)null;
 
-            return new PagedResult<Post>
+            return new PagedResult<PostListItemDto>
             {
                 Items = items,
                 Paging = new Paging
@@ -94,18 +105,135 @@ namespace ToaAnNhanDan.Api.Services
                 .Select(p => new PostDetailDto
                 {
                     Id = p.Id,
-                    IdCategory = p.IdCategory,
+                    CategoryId = p.CategoryId,
                     Title = p.Title,
-                    Image = p.Image,
-                    Doc = p.Doc,
-                    Date = p.Date
+                    Content = p.Content,
+                    CreatedAt = p.CreatedAt,
+                    Media = p.Media
+                        .OrderByDescending(m => m.IsThumbnail == true)
+                        .ThenBy(m => m.OrderIndex)
+                        .Select(m => new PostMediaDto
+                        {
+                            Id = m.Id,
+                            Url = m.Url,
+                            MediaType = m.MediaType,
+                            OrderIndex = m.OrderIndex,
+                            IsThumbnail = m.IsThumbnail
+                        })
+                        .ToList(),
+                    Comments = p.Comments
+                        .OrderByDescending(c => c.CreatedAt)
+                        .Select(c => new CommentDto
+                        {
+                            Id = c.Id,
+                            PostId = c.PostId,
+                            Content = c.Content,
+                            CreatedAt = c.CreatedAt,
+                            AuthorName = c.AuthorName
+                        })
+                        .ToList()
                 })
                 .FirstOrDefaultAsync(ct);
         }
 
-        public Task<List<PostCategory>> GetListCategoryAsync(CancellationToken ct = default)
+        public Task<List<PostCategory>> GetListCategoryAsync(int? parentId = null, CancellationToken ct = default)
         {
-            return db.PostCategories.AsNoTracking().ToListAsync(ct);
+            var query = db.PostCategories.AsNoTracking();
+
+            if (parentId.HasValue)
+                query = query.Where(c => c.ParentId == parentId.Value);
+
+            return query.OrderBy(c => c.Name).ToListAsync(ct);
+        }
+
+        public async Task<CommentDto> CreateCommentAsync(int postId, CreateCommentDto dto, CancellationToken ct = default)
+        {
+            var exists = await db.Posts.AnyAsync(p => p.Id == postId, ct);
+            if (!exists)
+                throw new KeyNotFoundException("Post not found");
+
+            var comment = new Comment
+            {
+                PostId = postId,
+                Content = dto.Content.Trim(),
+                AuthorName = dto.AuthorName.Trim(),
+                CreatedAt = DateTime.UtcNow
+            };
+
+            db.Comments.Add(comment);
+            await db.SaveChangesAsync(ct);
+
+            return new CommentDto
+            {
+                Id = comment.Id,
+                PostId = comment.PostId,
+                Content = comment.Content,
+                CreatedAt = comment.CreatedAt,
+                AuthorName = comment.AuthorName
+            };
+        }
+
+        public async Task<List<CommentDto>> GetCommentsAsync(int postId, CancellationToken ct = default)
+        {
+            return await db.Comments.AsNoTracking()
+                .Where(c => c.PostId == postId)
+                .OrderByDescending(c => c.CreatedAt)
+                .Select(c => new CommentDto
+                {
+                    Id = c.Id,
+                    PostId = c.PostId,
+                    Content = c.Content,
+                    CreatedAt = c.CreatedAt,
+                    AuthorName = c.AuthorName
+                })
+                .ToListAsync(ct);
+        }
+
+        private static void AddMediaFromDto(Post post, IEnumerable<CreatePostMediaDto>? media)
+        {
+            if (media is null)
+                return;
+
+            foreach (var item in media)
+            {
+                post.Media.Add(new PostMedia
+                {
+                    Url = item.Url,
+                    MediaType = item.MediaType,
+                    OrderIndex = item.OrderIndex,
+                    IsThumbnail = item.IsThumbnail
+                });
+            }
+        }
+
+        private async Task<HashSet<int>> GetCategoryTreeIdsAsync(int rootCategoryId, CancellationToken ct)
+        {
+            var categories = await db.PostCategories.AsNoTracking()
+                .Select(c => new { c.Id, c.ParentId })
+                .ToListAsync(ct);
+
+            var childrenLookup = categories
+                .GroupBy(c => c.ParentId)
+                .ToDictionary(g => g.Key, g => g.Select(x => x.Id).ToList());
+
+            var result = new HashSet<int> { rootCategoryId };
+            var stack = new Stack<int>();
+            stack.Push(rootCategoryId);
+
+            while (stack.Count > 0)
+            {
+                var current = stack.Pop();
+                if (!childrenLookup.TryGetValue(current, out var children))
+                    continue;
+
+                foreach (var child in children)
+                {
+                    if (result.Add(child))
+                        stack.Push(child);
+                }
+            }
+
+            return result;
         }
     }
 }
