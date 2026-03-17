@@ -43,7 +43,16 @@ function ListPostPage(){
             <div className="bg-white ml-[160px] mr-[127px] grid grid-cols-4 mb-10 pt-2">
                   <div className="col-span-1 w-full">
                     
-                    <Category />
+                    <Category name={"TIN HOẠT ĐỘNG"} items={[
+                        {id:"1",name:"Tin hoạt động TAND Tối cao"},
+                        {id:"2",name:"Tin hoạt động của hệ thống TAND"},
+                        {id:"3",name:"Tổ chức cán bộ"},
+                        {id:"4",name:"Hợp tác quốc tế"},
+                        {id:"5",name:"Thi đua khen thưởng"},
+                        {id:"6",name:"Tin hoạt động từ Học viện Tòa án"},
+                        {id:"7",name:"Tin hoạt động từ Báo Công lý"}
+
+                    ]} />
                     <VerticalBanner/>
                 </div>
                 <div className="col-span-3 bg-white ml-4  ">

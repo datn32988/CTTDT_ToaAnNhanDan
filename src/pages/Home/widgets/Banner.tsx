@@ -46,7 +46,7 @@ function Banner() {
         <div className="relative group  border-y border-orange-200 py-6"  style={{ backgroundImage: `url(${image2})` }}>
             <button 
                     onClick={() => scroll("left")}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow hover:bg-white text-orange-800" >
+                    className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow hover:bg-white text-orange-800 pl-10" >
                     &#10094;
             </button>
             <div 

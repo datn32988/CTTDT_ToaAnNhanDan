@@ -10,6 +10,7 @@ import TrialNewPage from "../pages/TrialNew_page/TrialNew_page";
 import AdminPage from "../pages/Admin/Admin_page";
 import ProtectedRoute from "../components/ProtectedRoute";
 import ArticleListItem from "../pages/ArticleListItem_page/ArticleListItem";
+import DocManagentPage from "../pages/DocManegment_page/DocManagment_page";
 
 
 function AppRoutes (){
@@ -24,7 +25,7 @@ function AppRoutes (){
                 <Route path="/chitiettin/:id" element={<PostDetailPage/>}/>
                 <Route path="/muchienthi" element={<ArticleListItem/>}/>
                 <Route path="/tinxetsu" element={<TrialNewPage/>}/>
-                
+                <Route path="/quanlyvanban" element={<DocManagentPage/>}/>
                 
                 <Route path="/admin" element={<ProtectedRoute>
                     <AdminPage/>

@@ -9,33 +9,33 @@ import image7 from "../assets/bn-f8.png";
 
 function Footer() {
     return (
-        <footer className="mt-16 w-full text-white text-start">
+        <footer className="mt-16 w-full text-white text-start bg-gray-200 ">
             <div className="grid grid-cols-4 gap-4 max-w-7xl mx-auto px-4 py-10 ba pl-10 ">
-                    <div className="space-y-2">
-                        <img src={image} alt="" className="w-full h-full object-cover border-1 border-slate-100" />
+                    <div className="space-y-2 ">
+                        <img src={image} alt="" className="  p-0 w-full h-full border-2 border-gray-200 rounded-lg  " />
                     </div>
                      <div className="space-y-2">
-                        <img src={image1} alt="" className="w-full h-full object-cover"  />
+                        <img src={image1} alt="" className="  p-0 w-full h-full border-2 border-gray-200 rounded-lg"  />
                     </div>
                     <div className="space-y-2">
-                        <img src={image2} alt="" className="w-full h-full object-cover" />
+                        <img src={image2} alt="" className="  p-0 w-full h-full border-2 border-gray-200 rounded-lg" />
                     </div>
                     <div className="space-y-2">
-                        <img src={image3} alt="" className="w-full h-full object-cover" />
+                        <img src={image3} alt="" className="  p-0 w-full h-full border-2 border-gray-200 rounded-lg" />
                     </div>
                </div>
-                <div className="grid grid-cols-4 gap-4 max-w-7xl mx-auto pb-10 px-4 pl-10">
-                    <div className="space-y-2">
-                        <img src={image4} alt="" className="w-full h-full object-cover" />
+                <div className="grid grid-cols-4 gap-4 max-w-7xl mx-auto pb-10 px-4 pl-10 border-2 border-gray-200 rounded-lg">
+                    <div className="space-y-2 ">
+                        <img src={image4} alt="" className="  p-0 w-full h-full border-2 border-gray-200 rounded-lg" />
                     </div>
                      <div className="space-y-2">
-                        <img src={image5} alt="" className="w-full h-full object-cover" />
+                        <img src={image5} alt="" className="  p-0 w-full h-full border-2 border-gray-200 rounded-lg" />
                     </div>
                     <div className="space-y-2">
-                        <img src={image6} alt="" className="w-full h-full object-cover" />
+                        <img src={image6} alt="" className="  p-0 w-full h-full border-2 border-gray-200 rounded-lg" />
                     </div>
                     <div className="space-y-2">
-                        <img src={image7} alt="" className="w-full h-full object-cover" />
+                        <img src={image7} alt="" className="  p-0 w-full h-full border-2 border-gray-200 rounded-lg" />
                     </div>
                </div>
             <div className="bg-red-500 w-full">
@@ -71,7 +71,7 @@ function Footer() {
                 </div>
 
                 
-                <div className="max-w-7xl mx-auto py-8 px-4 flex  items-center">
+                <div className=" lg:max-w-7xl mx-auto py-8 px-4 flex  items-center">
                     <div>
                         <p className="text-sm">CỔNG THÔNG TIN ĐIỆN TỬ</p>
                         <h2 className="text-3xl font-bold mt-2">TÒA ÁN NHÂN DÂN TỐI CAO</h2>

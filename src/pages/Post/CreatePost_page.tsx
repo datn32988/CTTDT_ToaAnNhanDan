@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import type { CategoryResponse } from "../../types/category.type";
 import { getCategoriesApi } from "../../services/categoryService";
 import { postService } from "../../services/postService";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
 import { getAccessToken } from "../../utils/auth";
+import AdminLayout from "../../layouts/AdminLayout";
 
 
 
@@ -59,8 +58,9 @@ function CreatePostPage(){
         }
     };
     return(
-        <div className="bg-gray-50 min-h-screen">
-            <Header />
+        <AdminLayout>
+             <div className="bg-gray-50 min-h-screen overflow-x-hidden">
+           
             <div className="max-w-4xl mx-auto my-10 p-8 bg-white shadow-xl rounded-xl">
                 <h1 className="text-2xl font-bold mb-8 text-red-700 border-b pb-4">ĐĂNG TIN HOẠT ĐỘNG</h1>
                 
@@ -132,8 +132,10 @@ function CreatePostPage(){
                     </div>
                 </form>
             </div>
-            <Footer />
+           
         </div>
+        </AdminLayout>
+       
     );
 }
 

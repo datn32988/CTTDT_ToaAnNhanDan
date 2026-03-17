@@ -4,11 +4,11 @@ import Footer from "../components/Footer"
 function NewsLayout({ children }: { children: React.ReactNode }) {
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
 
       <Header/>
 
-      <main className="overflow-x-hidden">
+      <main className="">
         {children}
       </main>
 

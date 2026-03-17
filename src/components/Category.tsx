@@ -1,47 +1,31 @@
 
-import { useEffect, useState } from "react";
 import image from "../assets/trongdong-big.png"
-import type { CategoryResponse } from "../types/category.type";
-import { getCategoriesApi } from "../services/categoryService";
+import CategoryItem from "./CategoryItem"
 
 
-function Category() {
-  const [categories, setCategories] = useState<CategoryResponse[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getCategoriesApi();
-                setCategories(data);
-            } catch (error) {
-                console.error("Lỗi khi lấy danh mục:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+type CategoryItemType = {
+  id: string
+  name: string
+}
 
-        fetchData();
-    }, []);
+type CategoryProps = {
+  name: string
+  items: CategoryItemType[]
+}
+
+function Category({name,items} : CategoryProps) {
+
     return (
-      <div className="text-white">
+      <div className="text-white pt-2">
             <ul className="" style={{ backgroundImage: `url(${image})`, backgroundSize: "cover" }}>
                 <li className="bg-red-500 text-white p-3 text-xl border-l-8 border-red-700">
-                    Tin hoạt động
+                    {name}
                 </li>
-
-                {isLoading ? (
-                    <li className="p-4 text-black italic">Đang tải dữ liệu...</li>
-                ) : (
-                    categories.map((item) => (
-                        <li
-                            key={item.id}
-                            className="py-4 px-4 cursor-pointer border-b border-x-2 border-red-500 text-black hover:bg-gray-100 transition-colors"
-                        >
-                            {item.name}
-                        </li>
-                    ))
-                )}
+                {items.map((item)=>(
+                    <CategoryItem key={item.id} name={item.name}/>
+                ))}
+                  
             </ul>
         </div>
     );

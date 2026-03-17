@@ -16,10 +16,10 @@ function MainPage() {
       useEffect(() => {
         const fakeData: PostItem[] = [
         { id: "44/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 10 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: "2024-01-15" },
-        { id: "44/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 9 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: "2023-12-20" },
-        { id: "44/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 8 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: "2023-11-10" },
-        { id: "44/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 7 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: "2023-10-05" },
-        { id: "44/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 6 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: "2023-09-15" }
+        { id: "45/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 9 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: "2023-12-20" },
+        { id: "46/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 8 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: "2023-11-10" },
+        { id: "47/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 7 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: "2023-10-05" },
+        { id: "48/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 6 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: "2023-09-15" }
         ];
 
         setPosts(fakeData);
@@ -27,7 +27,7 @@ function MainPage() {
     }, []);
         return (
             <div className="bg-gray-100 min-h-screen ml-[160px] mr-[127px] mt-10 mb-10  flex flex-between gap-10">
-                <div className="w-[460px] ">
+                <div className="w-[460px]  ">
                     <h2 className="text-lg font-bold mb-4 text-start uppercase tracking-wider  bg-red-500 text-white p-4 pl-6 border-l-8 border-red-700">
                         Thông Báo CHỈ ĐẠO ĐIỀU HÀNH
                     </h2>

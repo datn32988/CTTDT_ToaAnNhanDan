@@ -41,24 +41,49 @@ function Slider() {
                 <img 
                     src={currentPost.image} 
                     alt={currentPost.title} 
-                    className="w-full h-[650px] object-cover"
+                    className="w-full h-[510px] object-cover"
                 />
 
-                {/* Overlay và nội dung */}
-                <div className="absolute inset-0 flex flex-col items-center justify-end p-4 md:p-10 bg-black/40 text-white text-start">
-                    <h3 className="text-2xl md:text-4xl font-bold mb-4 md:mb-6 leading-tight uppercase tracking-wider max-w-3xl px-4">
-                        {currentPost.title}
-                    </h3>
-                    
-                    <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 px-4">
-                        <span className="bg-red-600 text-white px-3 py-1 text-xl font-bold uppercase rounded-sm whitespace-nowrap">
-                            Tin hoạt động tòa án nhân dân tối cao
-                        </span>
-                        <span className="text-sm font-medium opacity-90 whitespace-nowrap">
-                            {currentPost.date}
-                        </span>
+                <div className="absolute bottom-0 left-0 right-0 
+                    flex flex-col justify-center items-center  gap-6
+                    px-4 md:px-10 py-6
+                    bg-gradient-to-t from-black/70 to-transparent
+                    text-white">
+
+                        <h3 className="text-2xl md:text-4xl font-bold mb-4 leading-tight uppercase max-w-3xl">
+                            {currentPost.title}
+                        </h3>
+
+                        {/* Row dưới */}
+                        <div className="flex items-center ">
+
+                            {/* Left */}
+                            <div className="flex items-center gap-3">
+                                <span className="bg-red-600 text-white px-3 py-1 text-sm font-bold uppercase rounded-sm">
+                                    Tin hoạt động tòa án nhân dân tối cao
+                                </span>
+
+                                <span className="text-sm opacity-90">
+                                    {currentPost.date}
+                                </span>
+                            </div>
+
+                            <div className="flex gap-2 ml-8">
+                                {news.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setCurrentIndex(index)}
+                                        className={`h-2 rounded-full transition-all duration-300 ${
+                                            index === currentIndex
+                                                ? "bg-red-600 w-4"
+                                                : "bg-white/60 w-2 hover:bg-white"
+                                        }`}
+                                    />
+                                ))}
+                            </div>
+
+                        </div>
                     </div>
-                </div>
 
                 {/* Nút điều khiển */}
                 <div className="absolute inset-0 flex items-center justify-between px-2 md:px-4">
@@ -82,20 +107,7 @@ function Slider() {
                         </svg>
                     </button>
                 </div>
-                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-                    {news.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setCurrentIndex(index)}
-                            className={`w-2 h-2 rounded-full transition-all ${
-                                index === currentIndex 
-                                    ? 'bg-red-600 w-4' 
-                                    : 'bg-white/50 hover:bg-white/80'
-                            }`}
-                            aria-label={`Go to slide ${index + 1}`}
-                        />
-                    ))}
-                </div>
+                
             </div>
 
             

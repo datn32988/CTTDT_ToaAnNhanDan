@@ -13,7 +13,7 @@ import NewsLayout from "../../layouts/NewsLayout";
 function HomePage() {
   return (
     <NewsLayout>
-      <div className=" bg-white "> 
+      <div className=" bg-white overflow-x-hidden"> 
         <Slider />
         <SliderTask />
         <Banner />
