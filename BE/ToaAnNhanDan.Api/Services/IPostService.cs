@@ -10,7 +10,7 @@ namespace ToaAnNhanDan.Api.Services
         Task<PostCategory> CreateCategory(CreatePostCategory category, CancellationToken ct = default);
         Task<PagedResult<PostListItemDto>> GetAllPostsAsync(int? categoryId = null, int? rootCategoryId = null, int page = 1, CancellationToken ct = default);
         Task<PostDetailDto?> GetDetailAsync(int postId, CancellationToken ct = default);
-        Task<List<PostCategory>> GetListCategoryAsync(int? parentId = null, CancellationToken ct = default);
+        Task<List<CategoryDto>> GetListCategoryAsync(int? parentId = null, CancellationToken ct = default);
         Task<CommentDto> CreateCommentAsync(int postId, CreateCommentDto dto, CancellationToken ct = default);
         Task<List<CommentDto>> GetCommentsAsync(int postId, CancellationToken ct = default);
     }

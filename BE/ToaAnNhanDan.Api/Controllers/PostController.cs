@@ -2,64 +2,23 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ToaAnNhanDan.Api.Dtos.Post;
-using ToaAnNhanDan.Api.Helpers;
-using ToaAnNhanDan.Api.Models;
 using ToaAnNhanDan.Api.Services;
 
 namespace ToaAnNhanDan.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PostController(IPostService post, IWebHostEnvironment env) : ControllerBase
+    public class PostController(IPostService post) : ControllerBase
     {
         [HttpPost]
         [Authorize]
-        [Consumes("multipart/form-data")]
-        public async Task<IActionResult> CreatePost([FromForm] CreatePostFormDto dto, CancellationToken ct)
+        public async Task<IActionResult> CreatePost([FromBody] CreatePostDto dto, CancellationToken ct)
         {
             var authorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrWhiteSpace(authorId))
                 return Unauthorized(new { message = "Missing user id" });
 
-            if (dto.Files.Count > 0 && dto.MediaTypes is not null && dto.MediaTypes.Count is not 1 && dto.MediaTypes.Count != dto.Files.Count)
-                return BadRequest(new { message = "MediaTypes phải để trống, hoặc 1 giá trị cho tất cả file, hoặc cùng số lượng với Files." });
-
-            var media = new List<CreatePostMediaDto>();
-
-            for (var i = 0; i < dto.Files.Count; i++)
-            {
-                var file = dto.Files[i];
-                var url = await MediaStorageHelper.SavePostMediaAsync(file, env, ct);
-                var orderIndex = dto.OrderIndexes is not null && i < dto.OrderIndexes.Count ? dto.OrderIndexes[i] : i;
-                var isThumbnail = dto.IsThumbnails is not null && i < dto.IsThumbnails.Count
-                    ? (bool?)dto.IsThumbnails[i]
-                    : null;
-                var mediaType = dto.MediaTypes switch
-                {
-                    null or { Count: 0 } => MediaType.Image,
-                    { Count: 1 } => dto.MediaTypes[0],
-                    _ => dto.MediaTypes![i]
-                };
-
-                media.Add(new CreatePostMediaDto
-                {
-                    Url = url,
-                    MediaType = mediaType,
-                    OrderIndex = orderIndex,
-                    IsThumbnail = isThumbnail
-                });
-            }
-
-            var createDto = new CreatePostDto
-            {
-                CategoryId = dto.CategoryId,
-                Title = dto.Title,
-                Content = dto.Content,
-                CreatedAt = dto.CreatedAt,
-                Media = media.Count > 0 ? media : null
-            };
-
-            var created = await post.CreateAsync(createDto, authorId, ct);
+            var created = await post.CreateAsync(dto, authorId, ct);
             return Created($"/api/posts/{created.Id}", new { created.Id });
         }
 
