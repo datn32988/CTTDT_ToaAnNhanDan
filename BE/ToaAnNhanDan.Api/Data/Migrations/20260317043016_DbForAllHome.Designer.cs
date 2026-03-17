@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToaAnNhanDan.Api.Data;
 
@@ -11,9 +12,11 @@ using ToaAnNhanDan.Api.Data;
 namespace ToaAnNhanDan.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260317043016_DbForAllHome")]
+    partial class DbForAllHome
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -258,10 +261,6 @@ namespace ToaAnNhanDan.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AuthorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -278,8 +277,6 @@ namespace ToaAnNhanDan.Api.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.HasIndex("CategoryId");
 
@@ -405,19 +402,11 @@ namespace ToaAnNhanDan.Api.Migrations
 
             modelBuilder.Entity("ToaAnNhanDan.Api.Models.Post", b =>
                 {
-                    b.HasOne("ToaAnNhanDan.Api.Models.ApplicationUser", "Author")
-                        .WithMany("Posts")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ToaAnNhanDan.Api.Models.PostCategory", "Category")
                         .WithMany("Posts")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Author");
 
                     b.Navigation("Category");
                 });
@@ -441,11 +430,6 @@ namespace ToaAnNhanDan.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("Post");
-                });
-
-            modelBuilder.Entity("ToaAnNhanDan.Api.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("ToaAnNhanDan.Api.Models.Post", b =>
