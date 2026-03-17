@@ -42,21 +42,27 @@ namespace ToaAnNhanDan.Api.Services
             return categoryEntity;
         }
 
-        public async Task<PagedResult<PostListItemDto>> GetAllPostsAsync(int? categoryId = null, int? rootCategoryId = null, int page = 1, CancellationToken ct = default)
+        public Task<PagedResult<PostListItemDto>> GetAllPostsAsync(int page = 1, CancellationToken ct = default)
+        {
+            return GetPostsInternalAsync(db.Posts.AsNoTracking(), page, ct);
+        }
+
+        public Task<PagedResult<PostListItemDto>> GetPostsByCategoryAsync(int categoryId, int page = 1, CancellationToken ct = default)
+        {
+            var query = db.Posts.AsNoTracking().Where(p => p.CategoryId == categoryId);
+            return GetPostsInternalAsync(query, page, ct);
+        }
+
+        public async Task<PagedResult<PostListItemDto>> GetPostsByRootCategoryAsync(int rootCategoryId, int page = 1, CancellationToken ct = default)
+        {
+            var categoryIds = await GetCategoryTreeIdsAsync(rootCategoryId, ct);
+            var query = db.Posts.AsNoTracking().Where(p => categoryIds.Contains(p.CategoryId));
+            return await GetPostsInternalAsync(query, page, ct);
+        }
+
+        private async Task<PagedResult<PostListItemDto>> GetPostsInternalAsync(IQueryable<Post> query, int page, CancellationToken ct)
         {
             if (page < 1) page = 1;
-
-            var query = db.Posts.AsNoTracking();
-
-            if (rootCategoryId.HasValue)
-            {
-                var categoryIds = await GetCategoryTreeIdsAsync(rootCategoryId.Value, ct);
-                query = query.Where(p => categoryIds.Contains(p.CategoryId));
-            }
-            else if (categoryId.HasValue)
-            {
-                query = query.Where(p => p.CategoryId == categoryId.Value);
-            }
 
             var total = await query.CountAsync(ct);
 

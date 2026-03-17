@@ -31,9 +31,23 @@ namespace ToaAnNhanDan.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int? categoryId, [FromQuery] int? rootCategoryId, [FromQuery] int page = 1, CancellationToken ct = default)
+        public async Task<IActionResult> GetAll([FromQuery] int page = 1, CancellationToken ct = default)
         {
-            var result = await post.GetAllPostsAsync(categoryId, rootCategoryId, page, ct);
+            var result = await post.GetAllPostsAsync(page, ct);
+            return Ok(result);
+        }
+
+        [HttpGet("by-category/{categoryId:int}")]
+        public async Task<IActionResult> GetByCategory([FromRoute] int categoryId, [FromQuery] int page = 1, CancellationToken ct = default)
+        {
+            var result = await post.GetPostsByCategoryAsync(categoryId, page, ct);
+            return Ok(result);
+        }
+
+        [HttpGet("by-root-category/{rootCategoryId:int}")]
+        public async Task<IActionResult> GetByRootCategory([FromRoute] int rootCategoryId, [FromQuery] int page = 1, CancellationToken ct = default)
+        {
+            var result = await post.GetPostsByRootCategoryAsync(rootCategoryId, page, ct);
             return Ok(result);
         }
 
