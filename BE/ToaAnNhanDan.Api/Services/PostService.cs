@@ -136,14 +136,23 @@ namespace ToaAnNhanDan.Api.Services
                 .FirstOrDefaultAsync(ct);
         }
 
-        public Task<List<PostCategory>> GetListCategoryAsync(int? parentId = null, CancellationToken ct = default)
+        public Task<List<CategoryDto>> GetListCategoryAsync(int? parentId = null, CancellationToken ct = default)
         {
             var query = db.PostCategories.AsNoTracking();
 
             if (parentId.HasValue)
                 query = query.Where(c => c.ParentId == parentId.Value);
 
-            return query.OrderBy(c => c.Name).ToListAsync(ct);
+            return query
+                .OrderBy(c => c.Name)
+                .Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    ParentId = c.ParentId,
+                    ChildrenCount = c.Children.Count
+                })
+                .ToListAsync(ct);
         }
 
         public async Task<CommentDto> CreateCommentAsync(int postId, CreateCommentDto dto, CancellationToken ct = default)
