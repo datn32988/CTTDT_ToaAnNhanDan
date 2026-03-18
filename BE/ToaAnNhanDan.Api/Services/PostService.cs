@@ -115,6 +115,7 @@ namespace ToaAnNhanDan.Api.Services
                     Title = p.Title,
                     Content = p.Content,
                     CreatedAt = p.CreatedAt,
+                    RootCategoryId = p.Category.ParentId ?? p.CategoryId,
                     Media = p.Media
                         .OrderByDescending(m => m.IsThumbnail == true)
                         .ThenBy(m => m.OrderIndex)
