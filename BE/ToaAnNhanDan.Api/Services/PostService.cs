@@ -74,6 +74,7 @@ namespace ToaAnNhanDan.Api.Services
                 {
                     Id = p.Id,
                     CategoryId = p.CategoryId,
+                    RootCategoryId = p.Category.ParentId ?? p.CategoryId,
                     Title = p.Title,
                     CreatedAt = p.CreatedAt,
                     ThumbnailUrl = p.Media
