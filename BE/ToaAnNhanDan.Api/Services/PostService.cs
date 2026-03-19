@@ -229,6 +229,7 @@ namespace ToaAnNhanDan.Api.Services
                 .ToListAsync(ct);
 
             var childrenLookup = categories
+                .Where(c => c.ParentId.HasValue)
                 .GroupBy(c => c.ParentId)
                 .ToDictionary(g => g.Key, g => g.Select(x => x.Id).ToList());
 
