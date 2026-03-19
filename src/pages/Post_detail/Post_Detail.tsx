@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Category from "../../components/Category";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
@@ -7,21 +7,33 @@ import Notification from "../../components/Notification";
 import VerticalBanner from "../../components/VerticalBanner";
 import { postService } from "../../services/postService";
 import type { Post } from "../../types/Post.type";
+import type { CategoryResponse } from "../../types/category.type";
+import { getCategoriesApi } from "../../services/categoryService";
+import FeedBack from "../../components/Feedback";
+import RelatedPosts from "../../components/RelatedPosts";
 
 function PostDetailPage() {
     const { id } = useParams<{ id: string }>(); 
+     const navigate = useNavigate();
     const [post, setPost] = useState<Post | null>(null);
+    const [categories, setCategories] = useState<CategoryResponse[]>([])
     const [loading, setLoading] = useState(true);
-    const BASE_URL = "https://localhost:7212";
-
+    const numericId = id ? Number(id) : 0;
+  
+    const cleanHtml = (html: string) => {
+    return html
+        .replace(/&nbsp;/g, " ")    
+        .replace(/\u00A0/g, " ");   
+};
     useEffect(() => {
         const fetchDetail = async () => {
             if (!id) return;
-            const  numericId = Number(id)
 
             try {
                 setLoading(true);
                 const data = await postService.getPostDetail(numericId);
+                const categoriesData = await getCategoriesApi(data.rootCategoryId);
+                setCategories(categoriesData);
                 setPost(data);
             } catch (error) {
                 console.error("Lỗi khi lấy chi tiết bài viết:", error);
@@ -31,7 +43,7 @@ function PostDetailPage() {
         };
 
         fetchDetail();
-        // Cuộn lên đầu trang khi vào trang chi tiết
+        
         window.scrollTo(0, 0);
     }, [id]);
 
@@ -44,11 +56,16 @@ function PostDetailPage() {
             <Notification />
             <div className="bg-white ml-[160px] mr-[127px] grid grid-cols-4 mb-10 pt-2">
                 <div className="col-span-1 w-full">
-                    <Category />
-                    <VerticalBanner />
+                  <Category
+                        name="TIN HOẠT ĐỘNG"
+                        items={categories}
+                        activeId={Number(id)} 
+                        onClickItem={(categoryId) =>
+                            navigate(`/posts/category/${categoryId}`)
+                        }
+                    />
+                    <VerticalBanner />  
                 </div>
-
-         
                 <div className="col-span-3 bg-white pl-8 pr-4">
                     <div className="pt-4 mb-6 text-sm text-gray-600">
                         <Link to="/" className="hover:text-red-500">Trang chủ</Link>
@@ -63,26 +80,20 @@ function PostDetailPage() {
                     </h1>
 
                     <p className="text-sm text-gray-500 mb-6 italic">
-                        Ngày đăng: {new Date(post.date).toLocaleDateString("vi-VN")}
+                        Ngày đăng: {new Date(post.createdAt).toLocaleDateString("vi-VN")}
                     </p>
 
                     <hr className="mb-6" />
 
                     <div 
-                        className="prose prose-blue max-w-none detail-content"
-                        dangerouslySetInnerHTML={{ __html: post.doc }} 
+                        className="detail-content prose prose-blue max-w-none"
+                        dangerouslySetInnerHTML={{ __html: cleanHtml(post.content) }} 
                     />
                     
-                    {post.image && (
-                        <div className="mt-8 flex justify-center">
-                            <img 
-                                src={`${BASE_URL}/${post.image}`} 
-                                alt={post.title} 
-                                className="max-w-full h-auto rounded shadow-md"
-                            />
-                        </div>
-                    )}
+                  <FeedBack postId={numericId}/>
+                  <RelatedPosts postId={post.categoryId}/>
                 </div>
+                
             </div>
             <Footer />
         </div>

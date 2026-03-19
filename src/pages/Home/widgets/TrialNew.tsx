@@ -2,55 +2,60 @@ import { useState, useEffect } from "react";
 import banner1 from "../../../assets/bn565_1_1528336294950.png";
 import banner2 from "../../../assets/bn565_2_1528336723310.png";
 import image7 from "../../../assets/bg-tle.png";
-interface PostItem {
-    id: string;
-    imageUrl?: string;
-    title: string;
-    description?: string;
-    date: Date;
-}
+import { postService } from "../../../services/postService";
+import type { PostListItem } from "../../../types/Post.type";
+import { Link } from "react-router-dom";
 
 function TrialNew() {
-    const [posts, setPosts] = useState<PostItem[]>([]);
+    const [posts, setPosts] = useState<PostListItem[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const BASE_URL = "https://localhost:7212";
       useEffect(() => {
-            const fakeData: PostItem[] = [
-            { id: "44/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 10 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: new Date("2024-01-15"), description: "Phiên họp sẽ diễn ra vào ngày 15 tháng 1 năm 2024 tại trụ sở Tòa án nhân dân tối cao. Phiên họp sẽ diễn ra vào ngày 15 tháng 1 năm 2024 tại trụ sở Tòa án nhân dân tối cao.", imageUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop" },
-            { id: "45/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 9 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: new Date("2023-12-20"), description: "Phiên họp sẽ diễn ra vào ngày 20 tháng 12 năm 2023 tại trụ sở Tòa án nhân dân tối cao.", imageUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop" },
-            { id: "46/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 8 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: new Date("2023-11-10"), description: "Phiên họp sẽ diễn ra vào ngày 10 tháng 11 năm 2023 tại trụ sở Tòa án nhân dân tối cao.", imageUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop" },
-            { id: "47/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 7 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: new Date("2023-10-05"), description: "Phiên họp sẽ diễn ra vào ngày 5 tháng 10 năm 2023 tại trụ sở Tòa án nhân dân tối cao.", imageUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop" },
-            { id: "48/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 6 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: new Date("2023-09-15"), description: "Phiên họp sẽ diễn ra vào ngày 15 tháng 9 năm 2023 tại trụ sở Tòa án nhân dân tối cao.", imageUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop" }
-            ];
-    
-            setPosts(fakeData);
-    
-        }, []);
+      
+              const loadData = async () => { 
+              try {
+                  setLoading(true);
+                  const data = await postService.getPostByRootCategory(2,1);
+                  setPosts(data.items);
+              } catch (error) {
+                  console.error("Lỗi fetch api" ,error)
+              } finally{
+                  setLoading(false);
+              }
+          }
+          loadData();
+             
+          },[]);
 
         const latestPost = posts[0];          
         const gridPosts = posts.slice(1, 5);   
         const listPosts = posts.slice(2,5);
         
-
+        if (loading) return <div className="text-center mt-10">Đang tải...</div>;
     return (
         <div className="ml-[160px] mr-[127px]">
-             <div className=" mt-4 flex  border-l-8 border-red-700">
-                <h1 className="bg-red-500 text-2xl text-white font-bold px-6 py-2 inline-block">Tin xét xử</h1>
-                <img src={image7} alt="" className="border-r-2 border-red-400" />
-            </div>
-
+             <Link to={"/danhsach/category/2"}>
+                <div className=" mt-4 flex  border-l-8 border-red-700">
+                    <h1 className="bg-red-500 text-2xl text-white font-bold px-6 py-2 inline-block">Tin xét xử</h1>
+                    <img src={image7} alt="" className="border-r-2 border-red-400" />
+                </div>
+            </Link>
             <div className="border-t-2 border-t-red-500 w-full h-[500px] border-x-2 border-gray-50">
                 <div className="grid grid-cols-5 gap-4 p-4">
                     <div className="col-span-2 p-1  ">
                         {latestPost && (
                         <>
-                            <img src={latestPost.imageUrl || "/placeholder-big.jpg"} className="w-full h-auto object-cover" alt="" />
+                         <Link to={`/chitiettin/${latestPost.id}`}>
+                            <img src={`${BASE_URL}/${latestPost.thumbnailUrl}`} className="w-full h-auto object-cover" alt="" />
                             <h2 className="text-2xl font-bold leading-tight hover:text-red-600 cursor-pointer">
                                 {latestPost.title} <span className="font-light text-lg">
-                                    ({latestPost.date.toLocaleDateString()})
+                                    ({latestPost.createdAt})
                                 </span>
                             </h2>
                             <p className="text-gray-600 text-sm line-clamp-3">
-                                {latestPost.description}
+                                {latestPost.title}
                             </p>
+                            </Link>
                         </>
                     )}    
                     </div>
@@ -58,24 +63,29 @@ function TrialNew() {
                         <div className="grid grid-cols-4 gap-4">
                         {gridPosts.map((post) => (
                             <div key={post.id} className="group cursor-pointer">
-                                <img src={post.imageUrl || "/placeholder-small.jpg"} className="w-full h-24 object-cover mb-2" alt="" />
+                                 <Link to={`/chitiettin/${post.id}`}>
+                                <img src={`${BASE_URL}/${post.thumbnailUrl}`} className="w-full h-24 object-cover mb-2" alt="" />
                                 <h3 className="text-[13px] font-semibold leading-snug group-hover:text-red-600 line-clamp-3">
                                     {post.title}
                                 </h3>
+                                </Link>
                             </div>
                         ))}
                     </div>
                         <div className="border-t border-gray-200 pt-4 flex flex-col gap-3 p-4 m-3">
                         {listPosts.map((post) => (
                             <div key={post.id} className="flex items-start gap-2 group cursor-pointer">
+                                
                                 <span className="text-red-600 mt-1.5">•</span>
                                 <div className="flex flex-col">
-                                    <h4 className="text-[15px] font-medium group-hover:text-red-600">
-                                        {post.title} 
-                                        <span className="text-gray-400 text-xs ml-2 font-normal">
-                                            ({post.date.toLocaleDateString('vi-VN')})
-                                        </span>
-                                    </h4>
+                                    <Link to={`/chitiettin/${post.id}`}>
+                                        <h4 className="text-[15px] font-medium group-hover:text-red-600">
+                                            {post.title} 
+                                            <span className="text-gray-400 text-xs ml-2 font-normal">
+                                                ({post.createdAt})
+                                            </span>
+                                        </h4>
+                                    </Link>
                                 </div>
                             </div>
                         ))}

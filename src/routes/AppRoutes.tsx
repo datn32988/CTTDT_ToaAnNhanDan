@@ -6,11 +6,13 @@ import IntroducePage from "../pages/Introduce_page/Introduce_page";
 import ListPostPage from "../pages/ListPost_page/ListPost_page";
 import PostDetailPage from "../pages/Post_detail/Post_Detail";
 import CreatePostPage from "../pages/Post/CreatePost_page";
-import TrialNewPage from "../pages/TrialNew_page/TrialNew_page";
+import TrialNewPage from "../pages/ListPostByRootCategory_page/ListPostByRootCategory_page";
 import AdminPage from "../pages/Admin/Admin_page";
 import ProtectedRoute from "../components/ProtectedRoute";
 import ArticleListItem from "../pages/ArticleListItem_page/ArticleListItem";
 import DocManagentPage from "../pages/DocManegment_page/DocManagment_page";
+import CreatePostTrialNew from "../pages/Post/CreatePostTrialNew_page";
+import ListPostByRootCategory from "../pages/ListPostByRootCategory_page/ListPostByRootCategory_page";
 
 
 function AppRoutes (){
@@ -24,9 +26,10 @@ function AppRoutes (){
                 <Route path="/danhsachbangtin" element={<ListPostPage/>}/>
                 <Route path="/chitiettin/:id" element={<PostDetailPage/>}/>
                 <Route path="/muchienthi" element={<ArticleListItem/>}/>
-                <Route path="/tinxetsu" element={<TrialNewPage/>}/>
+                <Route path="/tinxetsu" element={<ListPostByRootCategory/>}/>
                 <Route path="/quanlyvanban" element={<DocManagentPage/>}/>
-                
+                <Route path="/posts/category/:id" element={<ArticleListItem />} />  
+                <Route path="/danhsach/category/:id" element={<ListPostByRootCategory />} />
                 <Route path="/admin" element={<ProtectedRoute>
                     <AdminPage/>
                 </ProtectedRoute>  }/>
@@ -38,6 +41,14 @@ function AppRoutes (){
                    
                     
                     }/>
+                      <Route path="/dangtinxetxu" element = {
+                    <ProtectedRoute>
+                         <CreatePostTrialNew/>
+                    </ProtectedRoute>
+                   
+                    
+                    }/>
+                    
             </Routes>
         
         </BrowserRouter>

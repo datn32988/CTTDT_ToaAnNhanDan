@@ -1,7 +1,7 @@
 type ArticleFeatured = {
   image: string
   title: string
-  date: Date
+  date: string
   description: string
 };
 
@@ -11,7 +11,7 @@ function ArticleFeatured({ image, title, date, description }: ArticleFeatured) {
       <h2 className="text-xl text-black hover:text-red-500 cursor-pointer">
         {title}
         <span className="text-sm text-gray-400 ml-2">
-          ({date.toLocaleDateString()})
+          ({date})
         </span>
       </h2>
 

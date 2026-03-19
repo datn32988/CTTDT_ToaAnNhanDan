@@ -9,36 +9,34 @@ import uploadService from "../../services/uploadService";
 import { getAccessToken } from "../../utils/auth";
 import AdminLayout from "../../layouts/AdminLayout";
 
-// Định nghĩa kiểu dữ liệu cho bài Post (giống Swagger)
 interface CreatePostInput {
     categoryId: number;
     title: string;
-    content: string; // ReactQuill sẽ lưu HTML vào đây
+    content: string; 
     createdAt: string;
-    media: any[];    // Bạn có thể xử lý ảnh đại diện nếu cần
+    media: any[];   
 }
 
-function CreatePostPage() {
+function CreatePostTrialNew() {
     const navigate = useNavigate();
-    const quillRef = useRef<ReactQuill>(null); // Dùng để tham chiếu tới editor
+    const quillRef = useRef<ReactQuill>(null);
 
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
     const [loading, setLoading] = useState(false); 
     
-    // State chỉ lưu những trường văn bản cơ bản
     const [formData, setFormData] = useState({
         idCategory: "",
         title: "",
     });
     
-    // State riêng để lưu nội dung HTML từ ReactQuill
+
     const [editorContent, setEditorContent] = useState("");
 
-    // 1. Load Chuyên mục
+
     useEffect(() => {
         const loadCategories = async () => {
             try {
-                const data = await getCategoriesApi(1);
+                const data = await getCategoriesApi(2);
                 setCategories(data);
                 if (data.length > 0) {
                     setFormData(prev => ({ ...prev, idCategory: data[0].id.toString() }));
@@ -50,9 +48,9 @@ function CreatePostPage() {
         loadCategories();
     }, []);
 
-    // 2. Hàm xử lý upload ảnh khi người dùng bấm nút chèn ảnh của Quill
+    
     const imageHandler = () => {
-        // Tạo một input file ẩn để mở cửa sổ chọn file
+     
         const input = document.createElement('input');
         input.setAttribute('type', 'file');
         input.setAttribute('accept', 'image/*');
@@ -64,16 +62,12 @@ function CreatePostPage() {
                 setLoading(true);
 
                 try {
-                    // BƯỚC A: Đẩy ảnh lên server qua API upload
                     const uploadRes = await uploadService.uploadPostMedia(file);
-                    // Bổ sung domain của Backend để ảnh hiển thị được trên client
                     const imageUrl = `https://localhost:7212${uploadRes.url}`;
-
-                    // BƯỚC B: Chèn URL ảnh đó vào đúng vị trí con trỏ chuột trong editor
                     const quill = quillRef.current?.getEditor();
                     if (quill) {
                         const range = quill.getSelection();
-                        // Chèn ảnh dạng thẻ HTML
+                 
                         quill.insertEmbed(range?.index || 0, 'image', imageUrl);
                     }
                 } catch (error) {
@@ -86,24 +80,23 @@ function CreatePostPage() {
         };
     };
 
-    // 3. Cấu hình Toolbar cho ReactQuill (Dùng useMemo để tránh re-render)
     const modules = useMemo(() => ({
         toolbar: {
             container: [
                 [{ 'header': [1, 2, 3, false] }],
-                ['bold', 'italic', 'underline', 'strike'],        // định dạng chữ
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // danh sách
-                ['link', 'image'],                                // chèn link và ảnh
-                ['clean']                                         // xóa định dạng
+                ['bold', 'italic', 'underline', 'strike'],        
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }], 
+                ['link', 'image'],                               
+                ['clean']                                       
             ],
             handlers: {
-                // Thay thế handler chèn ảnh mặc định bằng hàm imageHandler của mình
+              
                 'image': imageHandler 
             }
         }
     }), []);
 
-    // 4. Hàm Gửi Tin (Submit)
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
@@ -119,7 +112,7 @@ function CreatePostPage() {
         setLoading(true);
 
         try {
-            // Chuẩn bị dữ liệu ĐÚNG theo mẫu Swagger của bạn
+        
             const imgRegex = /<img[^>]+src\s*=\s*['"]([^'"]+)['"][^>]*>/i;
             const match = editorContent.match(imgRegex);
 
@@ -127,12 +120,11 @@ function CreatePostPage() {
 
            if (match && match[1]) {
             const fullUrl = match[1];
-            // Log ra để bạn kiểm tra trong F12 xem đã bắt được URL chưa
-            console.log("Tìm thấy ảnh đại diện:", fullUrl);
+        
 
             mediaPayload = [
                 {
-                    // Lấy đường dẫn tương đối để gửi lên server (bỏ domain)
+           
                     url: fullUrl.replace('https://localhost:7212', ''),
                     mediaType: 1, 
                     orderIndex: 0,
@@ -146,17 +138,16 @@ function CreatePostPage() {
             const finalPostData: CreatePostInput = {
                 categoryId: Number(formData.idCategory),
                 title: formData.title,
-                // Lấy nội dung HTML từ state của ReactQuill
+             
                 content: editorContent,
                 createdAt: new Date().toISOString(),
-                // Mảng media tạm thời để trống hoặc bạn có thể xử lý ảnh thumbnail nếu muốn
+        
                 media: mediaPayload
             };
 
             const result = await postService.createPost(finalPostData);
             
             alert("Đăng bài thành công!");
-            // result.id là id của bài viết mới (Vd: 15 như Swagger)
             navigate(`/chitiettin/${result.id}`);
         } catch (error: any) {
             console.error("Lỗi khi đăng bài:", error.response?.data);
@@ -171,11 +162,11 @@ function CreatePostPage() {
             <div className="bg-gray-50 min-h-screen overflow-x-hidden">
                 <div className="max-w-4xl mx-auto my-10 p-8 bg-white shadow-xl rounded-xl">
                     <h1 className="text-2xl font-bold mb-8 text-red-700 border-b pb-4">
-                        ĐĂNG TIN HOẠT ĐỘNG
+                        ĐĂNG TIN XÉT XỬ
                     </h1>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Chuyên mục */}
+    
                         <div>
                             <label className="block font-semibold mb-2 text-gray-700">Chuyên mục bài viết</label>
                             <select
@@ -191,8 +182,6 @@ function CreatePostPage() {
                                 ))}
                             </select>
                         </div>
-
-                        {/* Tiêu đề */}
                         <div>
                             <label className="block font-semibold mb-2 text-gray-700">Tiêu đề bài viết</label>
                             <input
@@ -205,23 +194,22 @@ function CreatePostPage() {
                             />
                         </div>
 
-                        {/* Nội dung với ReactQuill */}
+            
                         <div>
                             <label className="block font-semibold mb-2 text-gray-700">Nội dung chi tiết</label>
-                            <div className="quill-container h-[400px] mb-12"> {/* Đặt chiều cao cho editor */}
+                            <div className="quill-container h-[400px] mb-12"> 
                                 <ReactQuill 
-                                    ref={quillRef} // Gán tham chiếu
+                                    ref={quillRef} 
                                     theme="snow"
-                                    value={editorContent} // Giá trị HTML
-                                    onChange={setEditorContent} // Cập nhật state
-                                    modules={modules} // Cấu hình Toolbar và Handler
+                                    value={editorContent} 
+                                    onChange={setEditorContent} 
+                                    modules={modules} 
                                     placeholder="Bắt đầu viết nội dung và chèn ảnh tại đây..."
-                                    className="h-full" // Chiều cao nội dung bên trong editor
+                                    className="h-full" 
                                 />
                             </div>
                         </div>
 
-                        {/* Nút bấm */}
                         <div className="flex gap-4 pt-4">
                             <button
                                 type="submit"
@@ -247,4 +235,4 @@ function CreatePostPage() {
     );
 }
 
-export default CreatePostPage;
+export default CreatePostTrialNew;

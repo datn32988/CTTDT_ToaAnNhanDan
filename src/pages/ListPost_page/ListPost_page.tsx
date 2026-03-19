@@ -1,108 +1,83 @@
 import { useEffect, useState } from "react";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header"
+import type { PostListItem } from "../../types/Post.type";
+import type { CategoryResponse } from "../../types/category.type";
+import { postService } from "../../services/postService";
+import PostSectionList from "../../components/PostSectionList";
+import PostSectionFeatured from "../../components/PostSectionFeatured";
+import Category from "../../components/Category";
+import Header from "../../components/Header";
 import Notification from "../../components/Notification";
 import VerticalBanner from "../../components/VerticalBanner";
-import type { Post } from "../../types/Post.type";
-import { Link } from "react-router-dom"
-import Category from "../../components/Category";
-import { postService } from "../../services/postService";
+import { getCategoriesApi } from "../../services/categoryService";
+import Footer from "../../components/Footer";
 
-function ListPostPage(){
-    const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const BASE_URL = "https://localhost:7212";
-    useEffect(() => {
-        const loadData = async () => {
-            try {
-                setLoading(true);
-                const data = await postService.getPosts(1, 1);
-                setPosts(data.items);
-            } catch (error) {
-                console.error("Lỗi fetch posts:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+function ListPostPage() {
+  const [posts, setPosts] = useState<PostListItem[]>([]);
+  const [postActive, setPostActive] = useState<PostListItem[]>([]);
+  const [categories, setCategories] = useState<CategoryResponse[]>([]);
+  const [loading, setLoading] = useState(true);
 
-        loadData();
-    }, []);
+  const BASE_URL = "https://localhost:7212";
 
-    const  postByIdCategory = posts.filter(
-        posts => posts.idCategory === 1
-    )
-    const mainPost = postByIdCategory[0]
+  useEffect(() => {
+  const loadData = async () => {
+    try {
+      setLoading(true);
 
-    const sidePosts = postByIdCategory.slice(1,4)
+      const data = await postService.getPostByRootCategory(1, 1);
 
-   if (loading) return <div className="text-center mt-10">Đang tải...</div>;
-    return(
-        <div className="overflow-x-hidden">
-            <Header/>
-                <Notification/>
-            <div className="bg-white ml-[160px] mr-[127px] grid grid-cols-4 mb-10 pt-2">
-                  <div className="col-span-1 w-full">
-                    
-                    <Category name={"TIN HOẠT ĐỘNG"} items={[
-                        {id:"1",name:"Tin hoạt động TAND Tối cao"},
-                        {id:"2",name:"Tin hoạt động của hệ thống TAND"},
-                        {id:"3",name:"Tổ chức cán bộ"},
-                        {id:"4",name:"Hợp tác quốc tế"},
-                        {id:"5",name:"Thi đua khen thưởng"},
-                        {id:"6",name:"Tin hoạt động từ Học viện Tòa án"},
-                        {id:"7",name:"Tin hoạt động từ Báo Công lý"}
+      console.log("API DATA:", data);
 
-                    ]} />
-                    <VerticalBanner/>
-                </div>
-                <div className="col-span-3 bg-white ml-4  ">
-                    <div className="pl-5">
-                         <div className=" pt-4 mb-3 pb-1 ">
-                            <a href="" className="hover:text-red-500">Trang chủ <span>/ Tin hoạt động</span> </a> 
-                        </div>
-                    </div>
+      // Simplified mergedPosts assignment to avoid let and multiple assignments
+      const mergedPosts: PostListItem[] = (Array.isArray(data)
+        ? data.flatMap((x: any) => x.posts || [])
+        : (data as any)?.items || (data as any)?.data || []) as PostListItem[];
 
-                    <div className=" w-full py-2 bg-red-500 pl-4 border-l-8 border-red-800  ">
-                        <h1 className="text-xl text-white">TIN HOẠT ĐỘNG TÒA ÁN NHÂN DÂN TỐI CAO</h1>
+      setPosts(mergedPosts);
+      setPostActive(mergedPosts);
 
-                        
-                    </div>
-                    <div className="grid grid-cols-2 border-2 border-gray-200 gap-4">
-                        <div className="col-span-1 p-2">
-                            
-                            {mainPost && (
-                                <Link to={`/chitiettin/${mainPost.id}`}>
-                                    <>
-                                        <img src={ `${BASE_URL}/${mainPost.image}` || "/placeholder-big.jpg"} className="w-full h-auto object-cover" alt="" />
-                                        <h2 className="text-lg font-bold text-back hover:text-red-500">{mainPost.title} <span className="text-sm  pl-2">({new Date(mainPost.date).toLocaleDateString("vi-VN")})</span></h2>
-                                        <h2 className="text-sm ">{mainPost.title}</h2>
-                                    </>
-                                </Link>
-                            )}                     
-                        </div>
-                        <div className="col-span-1">
-                            {sidePosts.map((post) => (
-                                <Link to={`/chitiettin/${post.id}`}>
-                                    <div key={post.id} className="">
-                                        <div className="flex p-4">
-                                            <img src={`${BASE_URL}/${post.image}`} alt="" className="w-[200px] " />
-                                            <h2 className="text-black ml-2 text-sm hover:text-red-500">{post.title}</h2>
-                                        </div>
-                                    </div>
-                                </Link>
-                                
+      const dataCategory = await getCategoriesApi(1);
+      setCategories(dataCategory);
 
-                            ))}
+    } catch (err) {
+      console.error("Lỗi loadData:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                        </div>
-                    </div>
+  loadData();
+}, []);
 
+  if (loading) return <div>Loading...</div>;
 
-                </div>
-            </div>
-            <Footer/>
+  return (
+    <div>
+      <Header />
+      <Notification />
+
+      <div className="grid grid-cols-4">
+
+        <div>
+          <Category items={categories} name={""} />
+          <VerticalBanner />
         </div>
-    );
 
+        <div className="col-span-3">
+       
+          <PostSectionFeatured posts={posts} baseUrl={BASE_URL} />
+
+          <PostSectionList
+            title="Tin tức hệ thống TAND"
+            posts={postActive}
+            baseUrl={BASE_URL}
+          />
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  );
 }
-export default ListPostPage
+
+export default ListPostPage;

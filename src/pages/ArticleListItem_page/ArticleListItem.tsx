@@ -1,61 +1,146 @@
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 import ArticleItem from "../../components/ArticleItem";
+import Category from "../../components/Category";
+import VerticalBanner from "../../components/VerticalBanner";
 import PostArticleLayout from "../../layouts/PostArticleLayout";
 import ArticleItemSpecial from "./widgets/ArticleItemspecial";
 
-function ArticleListItem(){
-    const data =[
-        {
-            image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop",
-            title: "Phiên họp toàn thể tháng 2 năm 2022 của Hội đồng Thẩm phán Tòa án nhân dân tối cao",
-            date:  new Date("2025-07-01"),
-            decscription : "Sáng 15/3, hòa trong không khí tưng bừng, phấn khởi của Ngày bầu cử – ngày hội của toàn dân, cùng với cử tri cả nước, đồng chí Nguyễn Văn Quảng, Bí thư Trung ương Đảng, Bí thư Đảng ủy, Chánh án Tòa án nhân dân tối cao đã thực hiện quyền và nghĩa vụ công dân, tham gia bầu cử đại biểu Quốc hội khóa XVI và đại biểu Hội đồng nhân dân các cấp nhiệm kỳ 2026-2031."
-        },
-        {
-            image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop",
-            title: "Phiên họp toàn thể tháng 2 năm 2022 của Hội đồng Thẩm phán Tòa án nhân dân tối cao",
-            date:  new Date("2025-07-01"),
-            decscription : "Sáng 15/3, hòa trong không khí tưng bừng, phấn khởi của Ngày bầu cử – ngày hội của toàn dân, cùng với cử tri cả nước, đồng chí Nguyễn Văn Quảng, Bí thư Trung ương Đảng, Bí thư Đảng ủy, Chánh án Tòa án nhân dân tối cao đã thực hiện quyền và nghĩa vụ công dân, tham gia bầu cử đại biểu Quốc hội khóa XVI và đại biểu Hội đồng nhân dân các cấp nhiệm kỳ 2026-2031."
-        },
-        {
-            image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop",
-            title: "Phiên họp toàn thể tháng 2 năm 2022 của Hội đồng Thẩm phán Tòa án nhân dân tối cao",
-            date:  new Date("2025-07-01"),
-            decscription : "Sáng 15/3, hòa trong không khí tưng bừng, phấn khởi của Ngày bầu cử – ngày hội của toàn dân, cùng với cử tri cả nước, đồng chí Nguyễn Văn Quảng, Bí thư Trung ương Đảng, Bí thư Đảng ủy, Chánh án Tòa án nhân dân tối cao đã thực hiện quyền và nghĩa vụ công dân, tham gia bầu cử đại biểu Quốc hội khóa XVI và đại biểu Hội đồng nhân dân các cấp nhiệm kỳ 2026-2031."
-        },
-        {
-            image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop",
-            title: "Phiên họp toàn thể tháng 2 năm 2022 của Hội đồng Thẩm phán Tòa án nhân dân tối cao",
-            date:  new Date("2025-07-01"),
-            decscription : "Sáng 15/3, hòa trong không khí tưng bừng, phấn khởi của Ngày bầu cử – ngày hội của toàn dân, cùng với cử tri cả nước, đồng chí Nguyễn Văn Quảng, Bí thư Trung ương Đảng, Bí thư Đảng ủy, Chánh án Tòa án nhân dân tối cao đã thực hiện quyền và nghĩa vụ công dân, tham gia bầu cử đại biểu Quốc hội khóa XVI và đại biểu Hội đồng nhân dân các cấp nhiệm kỳ 2026-2031."
-        },
-    ];
+import { getCategoriesApi } from "../../services/categoryService";
+import { postService } from "../../services/postService";
 
-    const data1 = data[0];
-    
-    return(
-    <PostArticleLayout>
-        <div className=" ml-4">
-            <div className=" mb-6">
-                <ArticleItemSpecial image={data1.image} title={data1.title} date={data1.date} decscripsion={data1.decscription} nameCategory={"Tin xét xử các vụ án lớn"}/>
-            </div>
-           {data.map((item,index) => (
-            <ArticleItem 
-                key={index}
-                image={item.image}
-                date={item.date}
-                title={item.title}
-                decscription={item.decscription}
-            
-            />
-           ))}
+import type { CategoryResponse } from "../../types/category.type";
+import type { PostListItem } from "../../types/Post.type";
 
+function ArticleListItem() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [categories, setCategories] = useState<CategoryResponse[]>([]);
+    const [posts, setPosts] = useState<PostListItem[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const BASE_URL = "https://localhost:7212";
+    const getRootId = (id: number) => {
+            if ([8,9,10,11,12,13,14].includes(id)) return 1;
+            if ([15,16,17].includes(id)) return 2;
+            return 1;
+        };
+    const rootId = getRootId(Number(id));
+     const getCategoryName = (id?: string) => {
+        switch (Number(id)) {
+            case 1:
+                return "TIN HOẠT ĐỘNG";
+            case 2:
+                return "TIN XÉT XỬ";
+            default:
+                return "DANH MỤC";
+        }
+    };
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await getCategoriesApi(rootId);
+                setCategories(res);
+                if (!id && res.length > 0) {
+                    navigate(`/posts/category/${res[0].id}`);
+                }
+            } catch (err: any) {
+                if (err.code !== "ERR_CANCELED") {
+                    console.error("Lỗi load categories:", err);
+                }
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        if (!id) return;
+
+        let isMounted = true;
+
+        const fetchPosts = async () => {
+            try {
+                setLoading(true);
+
+                const res = await postService.getPostsByCategory(Number(id), 1);
+
+                if (!isMounted) return;
+
+                setPosts(res.items);
+            } catch (err: any) {
+                if (err.code !== "ERR_CANCELED") {
+                    console.error("Lỗi load posts:", err);
+                }
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        };
+
+        fetchPosts();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [id]);
+
+
+    const getThumbnail = (url?: string | null) =>
+        url ? `${BASE_URL}${url}` : "/images/placeholder.jpg";
+
+    const mainPost = posts[0];
+    const otherPosts = posts.slice(1);
+
+    if (loading) {
+        return <div className="text-center mt-10">Đang tải...</div>;
+    }
+
+    return (
+        <PostArticleLayout>
+            <div className="grid grid-cols-4 bg-white ml-[160px] mr-[127px] mb-10 pt-2">
+
+                <div className="col-span-1">
+                    <Category
+                        name={getCategoryName(id)}
+                        items={categories}
+                        activeId={Number(id)} 
+                        onClickItem={(categoryId) =>
+                            navigate(`/posts/category/${categoryId}`)
+                        }
+                    />
+                    <VerticalBanner />
+                </div>
+
+      
+                <div className="col-span-3 ml-4">
 
            
-        </div>
-    </PostArticleLayout>
-    );
+                    {mainPost && (
+                        <div className="mb-6">
+                            <ArticleItemSpecial
+                                image={getThumbnail(mainPost.thumbnailUrl)}
+                                title={mainPost.title}
+                                date={new Date(mainPost.createdAt)}
+                                decscripsion={mainPost.title}
+                                nameCategory="TIN HOẠT ĐỘNG"
+                            />
+                        </div>
+                    )}
+                    {otherPosts.map((item) => (
+                        <ArticleItem
+                            key={item.id}
+                            image={getThumbnail(item.thumbnailUrl)}
+                            date={new Date(item.createdAt)}
+                            title={item.title}
+                            decscription={item.title}
+                        />
+                    ))}
 
+                </div>
+            </div>
+        </PostArticleLayout>
+    );
 }
 
 export default ArticleListItem;
