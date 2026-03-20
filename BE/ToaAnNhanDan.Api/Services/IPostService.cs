@@ -15,5 +15,6 @@ namespace ToaAnNhanDan.Api.Services
         Task<List<CategoryDto>> GetListCategoryAsync(int? parentId = null, CancellationToken ct = default);
         Task<CommentDto> CreateCommentAsync(int postId, CreateCommentDto dto, CancellationToken ct = default);
         Task<List<CommentDto>> GetCommentsAsync(int postId, CancellationToken ct = default);
+        Task<PagedResult<PostVideoListItemDto>> GetVideoPostsAsync(int? categoryId = null, int page = 1, CancellationToken ct = default);
     }
 }

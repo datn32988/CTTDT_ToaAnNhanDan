@@ -206,6 +206,67 @@ namespace ToaAnNhanDan.Api.Services
                 .ToListAsync(ct);
         }
 
+        public Task<PagedResult<PostVideoListItemDto>> GetVideoPostsAsync(int? categoryId = null, int page = 1, CancellationToken ct = default)
+        {
+            var query = db.Posts.AsNoTracking();
+
+            if (categoryId.HasValue)
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+
+            return GetVideoPostsInternalAsync(query, page, ct);
+        }
+
+        private async Task<PagedResult<PostVideoListItemDto>> GetVideoPostsInternalAsync(IQueryable<Post> query, int page, CancellationToken ct)
+        {
+            if (page < 1) page = 1;
+
+            var total = await query.CountAsync(ct);
+
+            var items = await query
+                .OrderByDescending(p => p.CreatedAt)
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .Select(p => new PostVideoListItemDto
+                {
+                    Id = p.Id,
+                    CategoryId = p.CategoryId,
+                    RootCategoryId = p.Category.ParentId ?? p.CategoryId,
+                    Title = p.Title,
+                    CreatedAt = p.CreatedAt,
+                    ThumbnailUrl = p.Media
+                        .OrderByDescending(m => m.IsThumbnail == true)
+                        .ThenBy(m => m.OrderIndex)
+                        .Select(m => m.Url)
+                        .FirstOrDefault(),
+                    ThumbnailMediaType = p.Media
+                        .OrderByDescending(m => m.IsThumbnail == true)
+                        .ThenBy(m => m.OrderIndex)
+                        .Select(m => (MediaType?)m.MediaType)
+                        .FirstOrDefault(),
+                    VideoUrl = p.Media
+                        .Where(m => m.MediaType == MediaType.Video)
+                        .OrderByDescending(m => m.IsThumbnail == true)
+                        .ThenBy(m => m.OrderIndex)
+                        .Select(m => m.Url)
+                        .FirstOrDefault()
+                })
+                .ToListAsync(ct);
+
+            var next = page * PageSize < total ? page + 1 : (int?)null;
+            var prev = page > 1 ? page - 1 : (int?)null;
+
+            return new PagedResult<PostVideoListItemDto>
+            {
+                Items = items,
+                Paging = new Paging
+                {
+                    Page = page,
+                    Next = next,
+                    Prev = prev
+                }
+            };
+        }
+
         private static void AddMediaFromDto(Post post, IEnumerable<CreatePostMediaDto>? media)
         {
             if (media is null)
