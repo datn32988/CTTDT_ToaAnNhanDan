@@ -81,5 +81,12 @@ namespace ToaAnNhanDan.Api.Controllers
             var created = await post.CreateCommentAsync(postId, dto, ct);
             return Created($"/api/posts/{postId}/comments/{created.Id}", created);
         }
+
+        [HttpGet("videos")]
+        public async Task<IActionResult> GetVideos([FromQuery] int? categoryId, [FromQuery] int page = 1, CancellationToken ct = default)
+        {
+            var result = await post.GetVideoPostsAsync(categoryId, page, ct);
+            return Ok(result);
+        }
     }
 }
