@@ -27,8 +27,8 @@ function ArticleListItem() {
             return 1;
         };
     const rootId = getRootId(Number(id));
-     const getCategoryName = (id?: string) => {
-        switch (Number(id)) {
+     const getCategoryName = (rootId ?: number) => {
+        switch (rootId) {
             case 1:
                 return "TIN HOẠT ĐỘNG";
             case 2:
@@ -102,7 +102,7 @@ function ArticleListItem() {
 
                 <div className="col-span-1">
                     <Category
-                        name={getCategoryName(id)}
+                        name={getCategoryName(rootId)}
                         items={categories}
                         activeId={Number(id)} 
                         onClickItem={(categoryId) =>

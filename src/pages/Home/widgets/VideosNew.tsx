@@ -1,94 +1,126 @@
 import { useEffect, useState } from "react";
 import { IoVideocam } from "react-icons/io5";
-import { CiFacebook } from "react-icons/ci";
-import { CiTwitter } from "react-icons/ci";
+import { CiFacebook, CiTwitter } from "react-icons/ci";
 import { CgMail } from "react-icons/cg";
-interface PostItem {
-    id: string;
-    title: string;
-    date: Date;
-    videoUrl?: string;
-    description?: string;
-}
+import type { PostListVideoItem } from "../../../types/Post.type";
+import { postService } from "../../../services/postService";
+import { getThumbnail, getMediaUrl } from "../../../helper/helper";
+import { FaPlay } from "react-icons/fa";
+import { Link } from "react-router-dom";
 function VideosNew() {
-    const [posts, setPosts] = useState<PostItem[]>([]);
+    const [posts, setPosts] = useState<PostListVideoItem[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [playingId, setPlayingId] = useState<number | null>(null);
+
     useEffect(() => {
-        const fakeData: PostItem[] = [
-            { id: "44/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 10 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: new Date("2024-01-15"), description: "Phiên họp sẽ diễn ra vào ngày 15 tháng 1 năm 2024 tại trụ sở Tòa án nhân dân tối cao.", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-            { id: "45/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 9 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: new Date("2023-12-20"), description: "Phiên họp sẽ diễn ra vào ngày 20 tháng 12 năm 2023 tại trụ sở Tòa án nhân dân tối cao.", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-            { id: "46/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 8 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: new Date("2023-11-10"), description: "Phiên họp sẽ diễn ra vào ngày 10 tháng 11 năm 2023 tại trụ sở Tòa án nhân dân tối cao.", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-            { id: "47/TANDTC-KHTC", title: "Thông báo về việc tổ chức phiên họp thứ 7 của Hội đồng Thẩm phán Tòa án nhân dân tối cao", date: new Date("2023-10-05"), description: "Phiên họp sẽ diễn ra vào ngày 5 tháng 10 năm 2023 tại trụ sở Tòa án nhân dân tối cao.", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
-            
-        ];
-        setPosts(fakeData);
+        const loadData = async () => {
+            try {
+                setLoading(true);
+                const data = await postService.getPostByIdCategoryVideo(19, 1);
+                setPosts(data.items);
+            } catch (error) {
+                console.error("Lỗi fetch api", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadData();
     }, []);
-    if (posts.length === 0) return <div className="ml-[160px]">Đang tải...</div>;
-    const latestPost = posts[0];          
-    const gridPosts = posts.slice(1, 4);   
+
+    if (loading) return <div className="text-center mt-10">Đang tải...</div>;
+    if (posts.length === 0) return <div className="ml-[160px]">Không có dữ liệu</div>;
+
+    const latestPost = posts[0];
+    const gridPosts = posts.slice(1, 4);
+    
+    
+    const thumbnail = getThumbnail(latestPost.thumbnailUrl);
+    const videoUrl = getMediaUrl(latestPost.videoUrl);
 
     return (
         <div className="ml-[160px] mr-[127px] font-sans">
-            <div className="mt-4 flex items-center border-b-2 border-red-500 pb-2"> 
+            <div className="mt-4 flex items-center border-b-2 border-red-500 pb-2">
                 <div className="text-red-600 text-3xl"><IoVideocam /></div>
                 <h1 className="text-xl text-red-500 font-bold ml-4 uppercase">
                     Video - Phóng sự hoạt động của tòa án
                 </h1>
             </div>
+
             <div className="grid grid-cols-2 gap-6 mt-4 border p-4 shadow-sm">
+
+
                 <div className="col-span-1">
-                    {latestPost && (
-                        <div className="flex flex-col gap-3">
-                            <div className="aspect-video w-full">
-                                <iframe 
-                                    src={latestPost.videoUrl} 
-                                    className="w-full h-full"
-                                    allowFullScreen
-                                    title={latestPost.title}
+                    <div className="aspect-video w-full">
+                        {playingId !== latestPost.id ? (
+                            <div
+                                className="relative w-full h-full cursor-pointer"
+                                onClick={() => setPlayingId(latestPost.id)}
+                            >
+                                <img
+                                    src={thumbnail}
+                                    className="w-full h-full object-cover"
+                                    alt={latestPost.title}
                                 />
+
+                                <div className="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black/20 hover:bg-black/40">
+                                    <FaPlay></FaPlay>
+                                </div>
                             </div>
-                           
-                        </div>
-                    )}
+                        ) : (
+                            videoUrl ? (
+                                <video
+                                    src={videoUrl}
+                                    controls
+                                    autoPlay
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <img src={thumbnail} />
+                            )
+                        )}
+                    </div>
                 </div>
 
-               
                 <div className="col-span-1 flex flex-col">
+
                     <div className="py-4">
                         <h2 className="text-xl font-bold hover:text-red-600 cursor-pointer">
-                                {latestPost.title}
-                            </h2>
-                            <p className="text-gray-600 text-sm line-clamp-3">
-                                {latestPost.description}
-                            </p>
-                        
+                            {latestPost.title}
+                        </h2>
                     </div>
-                     <div className="flex space-x-2  py-5">
-                            <a href="#" className="text-blue-500 hover:text-blue-700">
-                                <CiFacebook />
-                            </a>
-                            <a href="#" className="text-blue-400 hover:text-blue-600">
-                                <CiTwitter />
-                            </a>
-                            <a href="#" className="text-red-500 hover:text-red-700">
-                                <CgMail />
-                            </a>
-                        </div>
+
+                    <div className="flex space-x-2 py-5">
+                        <a href="#" className="text-blue-500"><CiFacebook /></a>
+                        <a href="#" className="text-blue-400"><CiTwitter /></a>
+                        <a href="#" className="text-red-500"><CgMail /></a>
+                    </div>
+
                     <div className="grid grid-cols-3 gap-3">
-                        {gridPosts.map((post) => (
-                            <div key={post.id} className="flex flex-col gap-2">
-                                <div className="aspect-video w-full">
-                                    <iframe 
-                                        src={post.videoUrl} 
-                                        className="w-full h-full"
-                                        title={post.title}
-                                    />
+                        {gridPosts.map((post) => {
+                            const thumb = getThumbnail(post.thumbnailUrl);
+                            return (
+                                <div
+                                    key={post.id}
+                                    className="flex flex-col gap-2 cursor-pointer"
+                                  
+                                >
+                                     <Link to={`/tinvideo/${post.id}`}>
+                                    <div className="aspect-video w-full relative">
+                                        <img
+                                            src={thumb}
+                                            className="w-full h-full object-cover"
+                                            alt={post.title}
+                                        />
+                                    </div>
+
+                                    <h3 className="text-[12px] font-semibold line-clamp-3 hover:text-red-600">
+                                        {post.title}
+                                    </h3></Link>
                                 </div>
-                                <h3 className="text-[12px] font-semibold leading-tight line-clamp-3 hover:text-red-600 cursor-pointer">
-                                    {post.title}
-                                </h3>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
+
                 </div>
             </div>
         </div>

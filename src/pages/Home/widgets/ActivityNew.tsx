@@ -16,7 +16,7 @@ function ActivityNew() {
         const loadData = async () => { 
         try {
             setLoading(true);
-            const data = await postService.getPostsByCategory(11,1);
+            const data = await postService.getPostByRootCategory(1,1);
             setPosts(data.items);
         } catch (error) {
             console.error("Lỗi fetch api" ,error)
@@ -28,7 +28,7 @@ function ActivityNew() {
        
     },[]);
     const mainPost = posts[0];
-    const sidePost = posts.slice(2,5)
+    const sidePost = posts.slice(1,4)
     if (loading) return <div className="text-center mt-10">Đang tải...</div>;
     return(
         <div className="bg-gray-100 min-h-screen ml-[160px] mr-[127px] mt-10 mb-10   gap-10">
@@ -79,8 +79,8 @@ function ActivityNew() {
                         </div>
                          <div className="grid grid-cols-3 gap-4 mt-6">
                             {sidePost.map((post) => (
-                                <Link to={`/chitiettin/${mainPost.id}`}>
-                                    <div key={post.id}><img src={`${BASE_URL}/${mainPost.thumbnailUrl}`} alt="" />
+                                <Link to={`/chitiettin/${post.id}`}>
+                                    <div key={post.id}><img src={`${BASE_URL}/${post.thumbnailUrl}`} alt="" />
                                         <p className="line-clamp-4">{post.title}</p>
                                     </div>
                                 </Link>

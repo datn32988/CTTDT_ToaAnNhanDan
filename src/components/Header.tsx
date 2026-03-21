@@ -30,7 +30,7 @@ function Header() {
     <div className="bg-red-600">
        <nav className="bg-red-600 border-b border-gray-200">
         <div className="container mx-auto px-4">
-          <ul className="flex items-center  pl-[160px]">
+          <ul className="flex items-center  pl-[160px] pr-[110px]">
             <li className="">
               <Link to="/">
                 <img
@@ -63,7 +63,7 @@ function Header() {
               <img src={Grip} alt="" className="size-7" />
             </li>
 
-            <li className="ml-4 flex items-center justify-center p-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-xl shadow-sm hover:bg-white/30 transition-all cursor-pointer gap-2">
+            <li className="ml-4 flex items-center justify-center p-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-xl shadow-sm hover:bg-white/30 transition-all cursor-pointer gap-2 ">
               <img src={Search} alt="" className="size-7" />
             </li>
           </ul>

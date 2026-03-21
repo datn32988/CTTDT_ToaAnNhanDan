@@ -33,6 +33,7 @@ export  interface PostResponse {
 }
 
 export interface PostListResponse {
+  flatMap(arg0: (x: any) => any): unknown;
   totalPages: number;
   items: PostListItem[];
   paging: {
@@ -49,4 +50,25 @@ export interface PostListItem {
   createdAt: string,
   thumbnailUrl?: string | null;
   thumbnailMediaType: number
+}
+
+export interface PostListVidepResponse {
+  flatMap(arg0: (x: any) => any): unknown;
+  totalPages: number;
+  items: PostListVideoItem[];
+  paging: {
+    page: number;
+    next: number | null;
+    prev: number | null;
+  };
+}
+export interface PostListVideoItem {
+  id: number;
+  categoryId: number
+  rootCategoryId: number
+  title: string;
+  createdAt: string,
+  thumbnailUrl?: string | null;
+  thumbnailMediaType: number,
+  videoUrl: string
 }

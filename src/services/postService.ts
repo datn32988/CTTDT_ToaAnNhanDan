@@ -1,6 +1,6 @@
 
 import axiosClient from "../api/axiosClient";
-import type { Post, PostListItem, PostListResponse, PostResponse } from "../types/Post.type";
+import type { Post, PostListItem, PostListResponse, PostListVidepResponse, PostResponse } from "../types/Post.type";
 
 
 
@@ -33,6 +33,21 @@ export const postService = {
     getPostByRootCategory: async (rootCategoryId : number, page: number): Promise<PostListResponse> =>{
         const response = await axiosClient.get<PostListResponse>(
             `/Post/by-root-category/${rootCategoryId}?page=${page}`
+        );
+        return response.data;
+    },
+    getPostByIdCategoryVideo: async (
+        categoryId: number,
+        page: number
+    ): Promise<PostListVidepResponse> => {
+        const response = await axiosClient.get<PostListVidepResponse>(
+            `/Post/videos`,
+            {
+                params: {
+                    categoryId,
+                    page
+                }
+            }
         );
         return response.data;
     }

@@ -13,6 +13,12 @@ import ArticleListItem from "../pages/ArticleListItem_page/ArticleListItem";
 import DocManagentPage from "../pages/DocManegment_page/DocManagment_page";
 import CreatePostTrialNew from "../pages/Post/CreatePostTrialNew_page";
 import ListPostByRootCategory from "../pages/ListPostByRootCategory_page/ListPostByRootCategory_page";
+import CreatePostImageNewPage from "../pages/Post/CreatePostImageNew";
+import ListPostImagePage from "../pages/ListPostImage_page/ListpostImagePage";
+import PostImageDetail from "../pages/PostImageDetail_page/PostImageDetail";
+import CreatePostVideoNew from "../pages/Post/CreatePostVideoNew";
+import ListPostVideoPage from "../pages/ListPostVideo_page/ListPostVideo";
+import PostVideoDetailPage from "../pages/PostVideoDetail_page/PostVideoDetial";
 
 
 function AppRoutes (){
@@ -30,6 +36,10 @@ function AppRoutes (){
                 <Route path="/quanlyvanban" element={<DocManagentPage/>}/>
                 <Route path="/posts/category/:id" element={<ArticleListItem />} />  
                 <Route path="/danhsach/category/:id" element={<ListPostByRootCategory />} />
+                <Route path="/thuvienanh/:id" element={<PostImageDetail />} />
+                 <Route path="/tinvideo/:id" element={<PostVideoDetailPage />} />
+                <Route path="/tinvideo" element={<ListPostVideoPage/>}/>
+                <Route path="/thuvienanh" element={<ListPostImagePage/>}/>
                 <Route path="/admin" element={<ProtectedRoute>
                     <AdminPage/>
                 </ProtectedRoute>  }/>
@@ -41,9 +51,19 @@ function AppRoutes (){
                    
                     
                     }/>
-                      <Route path="/dangtinxetxu" element = {
+                    <Route path="/dangtinxetxu" element = {
+                        <ProtectedRoute>
+                            <CreatePostTrialNew/>
+                        </ProtectedRoute>
+                    }/>
+                    <Route path="/dangtinvideo" element = {
+                        <ProtectedRoute>
+                            <CreatePostVideoNew/>
+                        </ProtectedRoute>
+                    }/>
+                      <Route path="/dangtinanh" element = {
                     <ProtectedRoute>
-                         <CreatePostTrialNew/>
+                         <CreatePostImageNewPage/>
                     </ProtectedRoute>
                    
                     

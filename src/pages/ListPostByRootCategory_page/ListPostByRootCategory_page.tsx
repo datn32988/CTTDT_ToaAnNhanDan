@@ -36,23 +36,34 @@ function ListPostByRootCategory() {
                 return "DANH MỤC";
         }
     };
+    const categoryTitleMap: Record<number, string> = {
+        11: "Hợp tác quốc tế",
+        12: "Thi đua khen thưởng",
+        8: "Tin hoạt động TAND Tối cao",
+        9: "Tin hoạt động của hệ thống TAND",
+        14: "Tin hoạt động từ Báo Công lý",
+        13: "Tin hoạt động từ Học viện Tòa án",
+        10: "Tổ chức cán bộ",
+        2: "Các vụ án lớn",
+        16: "Tổ Thẩm phán và HĐTP TANDTC",
+        17: "Tòa án địa phương"
 
+        
+    };
+    const getCategoryTitle = (categoryId: number) => {
+        return categoryTitleMap[categoryId] || "Danh mục khác";
+    };
     useEffect(() => {
         if (!id) return;
 
         const loadData = async () => {
             try {
                 setLoading(true);
-
-    
                 const dataPost = await postService.getPostByRootCategory(Number(id), 1);
                 setPosts(dataPost.items);
-                console.log(dataPost    )
-                const firstPost = dataPost.items[0];
-
-                
-                    const dataCategory = await getCategoriesApi(Number(id));
-                    setCategories(dataCategory);
+                console.log(dataPost)
+                const dataCategory = await getCategoriesApi(Number(id));
+                setCategories(dataCategory);
                 
 
             } catch (error) {
@@ -68,12 +79,22 @@ function ListPostByRootCategory() {
     if (loading) {
         return <div className="text-center mt-10">Đang tải...</div>;
     }
+    const groupPostsByCategory = (posts: PostListItem[]) => {
+    return posts.reduce((acc, post) => {
+            const key = post.categoryId;
 
+            if (!acc[key]) {
+                acc[key] = [];
+            }
+
+            acc[key].push(post);
+            return acc;
+        }, {} as Record<number, PostListItem[]>);
+    };
     const mainPost = posts[0];
-    const otherPosts = posts.slice(1);
 
     const activeChildId = mainPost?.categoryId;
-
+    const groupedPosts = groupPostsByCategory(posts);
     return (
         <div className="overflow-x-hidden">
             <Header />
@@ -103,14 +124,27 @@ function ListPostByRootCategory() {
                                 Trang chủ / {getCategoryName(id)}
                             </span>
                         </div>
-
-                        <PostSectionFeatured posts={posts} baseUrl={BASE_URL} />
-
-                        <PostSectionList
-                            title="Tin tức hệ thống TAND"
-                            posts={otherPosts}
-                            baseUrl={BASE_URL}
-                        />
+                        {Object.entries(groupedPosts).map(([categoryId, items]) => {
+                            const id = Number(categoryId);
+                             if (id === 13) {
+                                return (
+                                    <PostSectionFeatured
+                                        key={id}
+                                        posts={items}
+                                        baseUrl={BASE_URL}
+                                        title={getCategoryTitle(id)}
+                                    />
+                                );
+                            }
+                            return (
+                                <PostSectionList
+                                    key={id}
+                                    title={getCategoryTitle(id)}
+                                    posts={items}
+                                    baseUrl={BASE_URL}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
 
