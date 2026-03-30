@@ -17,7 +17,7 @@ function RegisterPage(){
     };
     return (
        
-        <div className="">
+        <div className=" overflow-x-hidden">
             <Header />
              <div className="min-h-screen flex items-center justify-center bg-gray-100 ">
 

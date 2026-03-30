@@ -1,21 +1,25 @@
 import { useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-
+import { loginService } from "../../services/authService";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
-
-  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e:any) => {
-    e.preventDefault();
-
-    console.log({
-      email,
-      password
-    });
-  };
+    const handleLogin = async (e: React.FormEvent) =>{
+      e.preventDefault();
+      try{
+        const res = await loginService({username, password })
+         console.log("Login success:", res);
+         navigate("/dangbai");
+      }catch (error)
+      {
+        console.error("Login failed");
+      }
+    }
 
   return (
     <div className="overflow-x-hidden">
@@ -23,7 +27,7 @@ function LoginForm() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 ">
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleLogin}
         className="bg-white p-8 rounded-md shadow-md w-[400px]"
       >
 
@@ -37,11 +41,11 @@ function LoginForm() {
           </label>
 
           <input
-            type="email"
-            placeholder="Nhập email"
+            type=""
+            placeholder="Nhập usename"
             className="w-full border p-2 rounded"
-            value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            value={username}
+            onChange={(e)=>setUserName(e.target.value)}
           />
         </div>
 
@@ -82,3 +86,7 @@ function LoginForm() {
 }
 
 export default LoginForm;
+
+function natigate() {
+  throw new Error("Function not implemented.");
+}

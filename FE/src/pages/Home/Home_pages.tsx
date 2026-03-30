@@ -1,32 +1,33 @@
-import Banner from "../../components/Banner";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header"; 
-import MainPage from "../../components/MainPage";
-import ActivityNew from "../../components/ActivityNew";
-import Slider from "../../components/Slider";
-import SliderTask from "../../components/SliderTask";
-import LitigationNoticeSection from "../../components/LitigationNoticeSection";
-import  TrialNew from "../../components/TrialNew";
-import ImageNew from "../../components/ImageNew";
-import VideosNew from "../../components/VideosNew";
+import Banner from "./widgets/Banner";
+import MainPage from "./widgets/MainPage";
+import ActivityNew from "./widgets/ActivityNew";
+import Slider from "./widgets/Slider";
+import SliderTask from "./widgets/SliderTask";
+import LitigationNoticeSection from "./widgets/LitigationNoticeSection";
+import  TrialNew from "./widgets/TrialNew";
+import ImageNew from "./widgets/ImageNew";
+import VideosNew from "./widgets/VideosNew";
 import DocManagement from "./widgets/DocManagement";
+import NewsLayout from "../../layouts/NewsLayout";
 
 function HomePage() {
   return (
-    <div className=" bg-gray-100 overflow-x-hidden"> 
-      <Header />
-      <Slider />
-      <SliderTask />
-      <Banner />
-      <MainPage />  
-      <ActivityNew />
-      <LitigationNoticeSection />
-      <TrialNew />
-      <ImageNew />
-      <VideosNew />
-      <DocManagement />
-      <Footer />
-    </div>
+    <NewsLayout>
+      <div className=" bg-white overflow-x-hidden"> 
+        <Slider />
+        <SliderTask />
+        <Banner />
+        <MainPage />  
+        <ActivityNew />
+        <LitigationNoticeSection />
+        <TrialNew />
+        <ImageNew />
+        <VideosNew />
+        <DocManagement />
+        </div>
+    </NewsLayout>
+    
+    
     
   );
 }
