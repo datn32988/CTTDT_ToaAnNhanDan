@@ -40,3 +40,22 @@
 .read-the-docs {
   color: #888;
 }
+.detail-content {
+    line-height: 1.8;
+    word-wrap: break-word;
+    color: #333;
+}
+.detail-content {
+    white-space: normal;
+    line-height: 1.8;
+}
+
+.detail-content p {
+    margin-bottom: 16px;
+}
+
+.detail-content br {
+    display: block;
+    content: "";
+    margin-bottom: 8px;
+}
