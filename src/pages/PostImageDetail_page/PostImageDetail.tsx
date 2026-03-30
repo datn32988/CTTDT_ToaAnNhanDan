@@ -39,7 +39,7 @@ function PostImageDetail(){
         window.scrollTo(0, 0);
     }, [id]);
    const currentMedia = post?.media?.[selectedIndex];
-   const [firstPost, ...remainingPosts] = anotherPosts;
+   const [ ...remainingPosts] = anotherPosts;
    const handleNext = () => {
         if (!post || !post.media || post.media.length === 0) return;
 

@@ -46,11 +46,11 @@ function VerticalBanner(){
                 <h2 className="text-white bg-red-600 text-2xl pl-4">LIÊN KẾT WINDOWN</h2>
                 <div className="bg-white p-4 w-full h-[165px] border-2">
                     <div className="bg-yellow-100 rounded-md p-2 object-cover" style={{ backgroundImage: `url(${image1})`,backgroundPosition: "center"}}>
-                        <p className="text-lg text-center text-black py-2 hover:text-red-600">
+                        <p className="text-sm text-center text-black py-2 hover:text-red-600">
                             Trang Thông Tin Điện Tử
                         </p>
 
-                        <p className="text-lg font-bold text-center text-black py-2 hover:text-red-600">
+                        <p className="text-sm font-bold text-center text-black py-2 hover:text-red-600">
                             TÒA ÁN nhân dân tỉnh, thành phố
                         </p>
                     </div>

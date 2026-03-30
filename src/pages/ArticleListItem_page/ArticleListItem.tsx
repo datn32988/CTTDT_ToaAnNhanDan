@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 import ArticleItem from "../../components/ArticleItem";
 import Category from "../../components/Category";
@@ -118,6 +118,7 @@ function ArticleListItem() {
            
                     {mainPost && (
                         <div className="mb-6">
+                            <Link to={`/chitiettin/${mainPost.id}`}>
                             <ArticleItemSpecial
                                 image={getThumbnail(mainPost.thumbnailUrl)}
                                 title={mainPost.title}
@@ -125,6 +126,7 @@ function ArticleListItem() {
                                 decscripsion={mainPost.title}
                                 nameCategory="TIN HOẠT ĐỘNG"
                             />
+                            </Link>
                         </div>
                     )}
                     {otherPosts.map((item) => (
@@ -133,8 +135,7 @@ function ArticleListItem() {
                             image={getThumbnail(item.thumbnailUrl)}
                             date={new Date(item.createdAt)}
                             title={item.title}
-                            decscription={item.title}
-                        />
+                            decscription={item.title} id={item.id}                        />
                     ))}
 
                 </div>

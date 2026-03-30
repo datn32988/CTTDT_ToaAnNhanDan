@@ -19,6 +19,8 @@ import PostImageDetail from "../pages/PostImageDetail_page/PostImageDetail";
 import CreatePostVideoNew from "../pages/Post/CreatePostVideoNew";
 import ListPostVideoPage from "../pages/ListPostVideo_page/ListPostVideo";
 import PostVideoDetailPage from "../pages/PostVideoDetail_page/PostVideoDetial";
+import DocumentDetail from "../pages/DocumentDetail_page/DocumentDetail";
+import DocumentDetailPage from "../pages/DocumentDetail_page/DocumentDetail";
 
 
 function AppRoutes (){
@@ -38,9 +40,11 @@ function AppRoutes (){
                 <Route path="/danhsach/category/:id" element={<ListPostByRootCategory />} />
                 <Route path="/thuvienanh/:id" element={<PostImageDetail />} />
                  <Route path="/tinvideo/:id" element={<PostVideoDetailPage />} />
+                <Route path="/chitietvanban" element={<DocumentDetailPage/>}/>
                 <Route path="/tinvideo" element={<ListPostVideoPage/>}/>
                 <Route path="/thuvienanh" element={<ListPostImagePage/>}/>
                 <Route path="/admin" element={<ProtectedRoute>
+            
                     <AdminPage/>
                 </ProtectedRoute>  }/>
                 
